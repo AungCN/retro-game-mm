@@ -14,6 +14,7 @@ Create a welcoming, modern arcade hub for a curated collection of retro-style ga
 6. Make offline readiness and storage state understandable to users.
 7. Keep the architecture suitable for later Android/iOS packaging.
 8. Maintain a clear record of game provenance, assets, and licenses.
+9. Let users play their own legally obtained PS1 disc images in the browser (BYOR — Bring Your Own ROM), with files, BIOS, and saves kept on their device. Added by SCR-001 (`docs/product/SCOPE_CHANGE_001_BYOR.md`).
 
 ## Initial assumptions
 
@@ -21,6 +22,7 @@ Create a welcoming, modern arcade hub for a curated collection of retro-style ga
 - “Online and offline” means that a user can play a previously available/downloaded game while connected or disconnected. It does not imply online multiplayer.
 - The web app is the source product. Mobile apps are a later delivery target.
 - The initial game(s) will be original or otherwise demonstrably rights-cleared.
+- The platform distributes no third-party ROMs, disc images, or BIOS files. BYOR content is supplied by, and remains the responsibility of, the user; it stays on the user's device.
 - User accounts and cloud synchronization are not required for the initial MVP.
 
 ## MVP success outcomes
@@ -48,6 +50,11 @@ The MVP is successful when a user can:
 - Social feeds, chat, or messaging
 - AI-generated game content at runtime
 - Native-only features that are not needed for the web MVP
+- Shipping or committing ROMs, disc images, or BIOS files
+- Commercial game titles, box art, logos, or third-party title metadata in the catalogue
+- PS2 emulation in the MVP (experimental, post-MVP)
+- BYOR emulation on mobile browsers in the MVP
+- Emulation of other consoles (`nes`, `snes`, `gba`, `arcade`)
 
 These may be reconsidered through a documented scope change and ADR.
 
@@ -59,6 +66,7 @@ These may be reconsidered through a documented scope change and ADR.
 - Respectful nostalgia: retro-inspired presentation without unauthorized copying of protected assets or brands.
 - Accessibility: readable text, understandable controls, reduced-motion consideration, and alternatives to color-only information.
 - Privacy by default: local-only data in the MVP; do not add tracking without an explicit product decision.
+- User files stay on the device: user-supplied disc images, BIOS files, and saves are never uploaded or sent over the network.
 
 ## Measures to consider
 
