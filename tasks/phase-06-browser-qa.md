@@ -1,7 +1,7 @@
 # Phase 06 — Browser QA, Accessibility, and Web Release Readiness
 
 - Status: PROPOSED
-- Dependencies: Phases 02–05 accepted
+- Dependencies: Phases 02–05 (including 04B) accepted
 
 ## Objective
 
@@ -9,7 +9,7 @@ Verify the web product against approved requirements and prepare a controlled re
 
 ## Scope
 - Execute unit, integration, and end-to-end tests.
-- Test agreed browser/device matrix.
+- Test agreed browser/device matrix, including the BYOR tier matrix (Tier 1 desktop Chromium, Tier 2 desktop Safari/Firefox, mobile "not supported yet").
 - Review responsive layout, accessibility, performance, and offline behavior.
 - Review dependencies, security posture, and asset licensing.
 - Resolve critical/high defects or obtain explicit owner acceptance of documented residual risks.
