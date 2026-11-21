@@ -36,7 +36,11 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval
 - The emulator iframe document uses the same policy except `frame-ancestors 'self'`, so only the platform shell can embed it.
 - `'wasm-unsafe-eval'` allows WebAssembly compilation without allowing JavaScript `eval`.
 - `connect-src 'self'` is part of the FR-027 guarantee: the page cannot send user files to another origin.
-- Any relaxation the emulator core requires (for example `'unsafe-eval'`, if SPIKE-001 A3 shows it is needed) must be scoped to the emulator iframe's own CSP, documented in ADR-0002, and approved by the owner — never applied to the platform shell.
+- Any relaxation the emulator core requires must be scoped to the emulator iframe's own CSP, documented in ADR-0002, and approved by the owner — never applied to the platform shell.
+- **Proposed emulator-iframe relaxation (SPIKE-001 A3, pending owner approval):** EmulatorJS 4.2.3 needs `script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' blob:` and `connect-src 'self' blob:`.
+  - `'unsafe-eval'` is used by its 7-Zip core extractor.
+  - `blob:` is used for the core script and its WASM.
+  - Everything else stays at the baseline. Keeping `connect-src` limited to `'self' blob:` is what blocks EmulatorJS's update check and its CDN core fallback; this was verified in Chrome.
 
 ## Emulator cores and supply chain
 

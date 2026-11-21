@@ -48,7 +48,8 @@ Only read permission is ever requested. The exact Chrome prompt wording, and whe
 
 ## Alternatives / details to evaluate
 
-- Streaming chunked reads from `FileSystemFileHandle` vs. full-file memory buffering. SPIKE-001: whole-file loading holds memory equal to the file size (649 MB for 648 MiB). Core-side streaming support is pending (A4).
+- Streaming chunked reads from `FileSystemFileHandle` vs. full-file memory buffering. SPIKE-001: whole-file loading holds memory equal to the file size (649 MB for 648 MiB at the platform level; 657 MB inside EmulatorJS). EmulatorJS 4.2.3 always loads whole files, so the storage layer's range reads are only used once Phase 04B adds a streaming loader.
+- EmulatorJS's own IndexedDB caches (`EmulatorJS-roms`, `EmulatorJS-core`) must stay disabled (`EJS_disableDatabases`); otherwise every disc would be silently copied into browser storage, outside this ADR's rules.
 - Export/import `.zip` backup flow for memory cards and save states. Zip implementation is chosen in Phase 04B or 05 with dependency approval.
 - Cache naming and atomic update strategy for emulator cores (Phase 05)
 - Storage quota estimation and clear user warnings (above)

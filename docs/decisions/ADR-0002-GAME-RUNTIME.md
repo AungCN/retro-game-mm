@@ -49,24 +49,30 @@ Maintain one common platform-facing `GameModule` contract (`load`, `start`, `pau
 - The whole app must be cross-origin isolated in every environment, including offline (SPIKE-001 A1/A2: verified in Chrome; Safari/Firefox pending).
 - Hosting must support custom headers on every file (ADR-0001).
 - The contract gains a user-file service, blob storage, analog input, host-owned audio, and optional `DiscSwappable` / `SaveStateCapable` extensions (contract v2).
-- **Memory:** if the core loads disc images whole, memory use equals disc size. SPIKE-001 measured 649 MB held for a 648 MiB file in Chrome. This is acceptable for single PS1 discs on desktop but not for PS2. Streaming through `readRange` is the target for Phase 04B, subject to what the core supports (SPIKE-001 A4).
+- **Memory:** EmulatorJS 4.2.3 loads the whole game file into the emulator's in-memory filesystem; it has no range-read path. SPIKE-001 measured 657 MB with a 648 MiB file. This is acceptable for single PS1 discs on a 16 GB desktop but not for PS2. Streaming through `readRange` would need a custom loader or a core-level virtual file system; that is a Phase 04B decision.
 - Testing is harder: emulator adapters need iframe/worker teardown tests, capability-gating tests, and manual permission-prompt checks.
-- If the core needs a CSP relaxation (for example `'unsafe-eval'`), it applies only to the iframe document and needs owner approval.
+- **CSP:** EmulatorJS 4.2.3 needs `script-src 'unsafe-eval' blob:` and `connect-src blob:` in the iframe document (SPIKE-001 A3: `eval` in its 7-Zip core extractor; core script and WASM loaded from `blob:` URLs). The relaxation applies only to the iframe and needs owner approval. `connect-src` otherwise stays `'self'`, which blocks EmulatorJS's update check and its CDN core fallback.
+- **EmulatorJS configuration is part of the boundary:**
+  - `EJS_disableDatabases = true` always, or EmulatorJS copies every game file into its own IndexedDB.
+  - The non-threaded core: full speed at about 10 MB, versus about 1.5 GB of shared memory for the threaded core, whose teardown could not be confirmed.
+  - The host hides EmulatorJS's own menu and provides the player controls.
+- **Saves:** the core persists saves in an IndexedDB database named `/data/saves` in the app's origin. Phase 04B must route memory cards and save states through the platform's blob storage so they follow the namespacing, export, and deletion rules.
+- **Packaging:** EmulatorJS's npm packages declare unpinned `latest` dependencies (including every other core), so the build fetches the exact package tarballs and verifies their integrity instead of running `npm install`.
 
 ## Recommendation
 
 Adopt option 3 (mixed adapter model) with emulator cores in a same-origin iframe behind the typed message protocol:
 - `native-canvas` for the MVP's native games;
-- `wasm-libretro` for the PS1 player (Phase 04B), using a pinned EmulatorJS build if SPIKE-001 A3/A7/A8 confirm it boots, performs, and tears down cleanly;
+- `wasm-libretro` for the PS1 player (Phase 04B), using pinned EmulatorJS 4.2.3 with the non-threaded `pcsx_rearmed` core. In Chrome it booted without a BIOS, ran the test programs at 60 fps, and freed its memory when the iframe was removed (SPIKE-001). This depends on the iframe CSP relaxation being approved;
 - `wasm-ps2` reserved for a post-MVP experiment.
 
-The final recommendation depends on the remaining SPIKE-001 results.
+Safari and Firefox confirmation comes from the owner browser session.
 
 ## Spike plan and evidence
 
 | Spike | Covers | Status |
 |---|---|---|
-| SPIKE-001 (`docs/spikes/SPIKE-001-PS1-BYOR.md`) | A1 isolation, A2 offline isolation, A3 core boot and CSP, A4 whole-file vs streaming, A5 handle/OPFS persistence, A6 storage durability, A7 performance, A8 teardown, A9 gamepad | In progress: A1, A2 and platform-side A4/A5/A6 done in Chrome; A3, A7, A8 wait for owner sign-off on the test image and core package channel; Safari/Firefox in the owner session |
+| SPIKE-001 (`docs/spikes/SPIKE-001-PS1-BYOR.md`) | A1 isolation, A2 offline isolation, A3 core boot and CSP, A4 whole-file vs streaming, A5 handle/OPFS persistence, A6 storage durability, A7 performance, A8 teardown, A9 gamepad | In progress: A1–A8 done in Chrome; Safari/Firefox and the file-permission flow wait for the owner session; A9 optional |
 | SPIKE-002 (`docs/spikes/SPIKE-002-PS2-DESK-PROBE.md`) | PS2 candidates, licences, requirements, maturity | Complete |
 
 ## Owner decision

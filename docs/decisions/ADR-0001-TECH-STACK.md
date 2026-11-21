@@ -44,6 +44,10 @@ Versions are what is current today, for orientation only. Exact versions are pin
 
 Maintenance signals recorded for the emulator stack: EmulatorJS last commit 2026-10-21, latest stable release 4.2.3 (2025-07-05), not archived.
 
+Packaging findings from SPIKE-001:
+- **Unpinned dependencies:** `@emulatorjs/emulatorjs` declares an optional dependency on `@emulatorjs/cores@latest` (every core, unpinned, some with non-commercial licences) plus build-tool dependencies, and `core-pcsx_rearmed` depends on `@emulatorjs/emulatorjs@latest`. Do not `npm install` them. Fetch the two exact tarballs (`npm pack`), verify the registry `sha512` integrity, and copy only the needed files.
+- **Missing licence file:** the core package contains no licence file (its `license` field reads `COPYING`). The GPLv2 text and a link to the corresponding source (`EmulatorJS/pcsx_rearmed`, built with `EmulatorJS/build`) must be supplied when distributing.
+
 ## Hosting requirements and comparison
 
 Requirements: custom response headers on **every** static file (HTML, JS, workers, `.wasm`); `application/wasm` MIME type; per-file size limit above the largest core file; HTTPS; static hosting only (no server functions needed). Disc images are never hosted.
