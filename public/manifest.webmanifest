@@ -1,0 +1,13 @@
+{
+  "name": "Retro Arcade",
+  "short_name": "Arcade",
+  "description": "Original retro-style games and a bring-your-own-disc PS1 player that works offline.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#120d2b",
+  "theme_color": "#120d2b",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
