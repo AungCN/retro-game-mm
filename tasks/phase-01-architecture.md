@@ -50,6 +50,13 @@ Select and document a maintainable technology stack and approve the application,
 - Technical spike results, if conducted
 - Updated architecture documents
 
+## Plan approval — owner only
+- Plan reference:
+- Owner approval: PENDING
+- Approved by:
+- Approval date:
+- Conditions/comments:
+
 ## Human evaluation — owner only
 - Reviewer:
 - Review date:

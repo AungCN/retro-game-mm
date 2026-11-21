@@ -42,6 +42,52 @@ A game with missing, unclear, incompatible, or disputed rights must not be inclu
 
 `IDEA`, `SPEC_DRAFT`, `RIGHTS_REVIEW_REQUIRED`, `RIGHTS_CLEARED`, `IN_DEVELOPMENT`, `QA`, `ACCEPTED`, `RETIRED`.
 
+## Emulation and BYOR (added by SCR-001)
+
+Scope change record: `docs/product/SCOPE_CHANGE_001_BYOR.md`.
+
+### What the platform never distributes
+
+- ROMs, disc images (`.iso`, `.chd`, `.bin`/`.cue`, `.pbp`, or similar), or BIOS files — not in the repository, builds, caches, or download links.
+- Commercial game titles, box art, screenshots, logos, or other trade dress in the catalogue.
+- Third-party title-metadata databases that list commercial titles.
+
+The PS1 player is a generic catalogue entry. Disc names in a user's local disc list are entered by that user and stay on their device.
+
+### User-supplied content
+
+- Disc images, BIOS files, memory cards, and save states supplied by the user stay on the user's device and are never uploaded.
+- The platform does not tell users where to obtain ROMs or BIOS files.
+
+### Emulator cores
+
+Every emulator core shipped with the app needs its own rights record containing:
+
+- core name and version;
+- licence (and compatibility with the repository licence and with other bundled cores);
+- upstream source URL and how the corresponding source is made available;
+- build provenance (who built it, from which commit, with which toolchain);
+- SHA-256 of each shipped file;
+- required notices and attribution.
+
+Cores are self-hosted and pinned; they are not loaded from third-party CDNs at runtime.
+
+### Repository licence direction
+
+The owner has chosen GPL-3.0-or-later for the repository. The LICENSE file is added in its own separately approved step; until then this is a recorded direction, not an applied licence.
+
+### Trademark wording
+
+- Do not use console makers' logos, fonts, or trade dress.
+- Do not imply affiliation or endorsement; include a non-affiliation notice where a console name appears.
+- UI wording (owner decision D2): use "PS1" together with a clear non-affiliation notice wherever the console name appears.
+
+### Test fixtures
+
+- Use only openly licensed homebrew disc images whose licence permits the intended test use; record provenance like any other asset.
+- Committed fixtures must be ≤ 1 MB each (owner decision D5).
+- Larger fixtures are fetched by a script and verified by checksum, never committed.
+
 ## Record keeping
 
 Keep copies or stable references for license texts, permissions, attribution requirements, and source provenance. Do not store private correspondence or credentials in the repository unless approved and appropriately protected.

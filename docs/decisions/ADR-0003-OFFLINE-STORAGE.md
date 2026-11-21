@@ -26,8 +26,9 @@ The application must support offline launch for selected games and preserve loca
 
 Decouple **Engine/Shell Offline Readiness** (managed by Service Worker + Cache Storage) from **ROM Availability** (managed via local File System handles or explicit IndexedDB import). Never mark a PS1/PS2 title as `OFFLINE_READY` unless both its required WASM core/BIOS and its local ROM handle are verified accessible offline.
 
+- Implementation notes: Prioritize `.chd` (Compressed Hunks of Data) support to reduce PS1/PS2 file sizes by 40–60%.
+
 ## Owner decision
 
-- Decision: PROPOSED (Ready for Phase 01 sign-off)
-- Approved by/date: 2026-11-21 (Drafted for owner approval)
-- Implementation notes: Prioritize `.chd` (Compressed Hunks of Data) support to reduce PS1/PS2 file sizes by 40–60%.
+- Decision: PENDING
+- Approved by/date:
