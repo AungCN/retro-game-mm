@@ -57,3 +57,6 @@ test-fixtures/local/
 public/cores/
 spike/vendor/
 spike/fixtures/
+
+# Fetched at build time (scripts/fetch-emulator.mjs, scripts/fetch-test-fixtures.mjs)
+public/emulator/ejs/
