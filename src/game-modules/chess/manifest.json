@@ -1,0 +1,28 @@
+{
+  "manifestVersion": 1,
+  "id": "chess",
+  "title": "Chess",
+  "version": "0.1.0",
+  "platform": "web-native",
+  "runtimeAdapter": "native-canvas",
+  "description": "The classic game of kings and queens. Play the computer at three levels or a friend on the same device; your game is saved automatically.",
+  "genre": "board",
+  "orientation": "any",
+  "input": {
+    "keyboard": true,
+    "touch": true,
+    "gamepad": false
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "bundled",
+    "requiredAssets": []
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1
+  },
+  "rightsRecord": "docs/games/GAME_002_CHESS.md",
+  "assets": [],
+  "releaseStatus": "in-development"
+}
