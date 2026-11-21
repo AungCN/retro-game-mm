@@ -4,9 +4,9 @@ Record material product, technical, scope, and release decisions. Link to the fu
 
 | Date | ID | Decision | Owner | Status | Related document |
 |---|---|---|---|---|---|
-| To be completed | DEC-000 | Starter-kit assumptions require Phase 00 validation | Project owner | PENDING | `GOALS.md`, PRD |
+| To be completed | DEC-000 | Starter-kit assumptions require Phase 00 validation | Project owner | APPROVED | `GOALS.md`, PRD |
 | 2026-11-21 | DEC-001 | Adopt Mixed Runtime Adapter model (native-canvas, wasm-libretro for PS1, wasm-ps2) and split offline/local BYOR ROM streaming | Project owner | PROPOSED | `ADR-0002`, `ADR-0003` |
-| 2026-11-21 | DEC-002 | Scope change SCR-001: PS1 BYOR player in MVP; PS2 experimental post-MVP; no distributed ROMs/BIOS/commercial titles; browser tiers | Project owner | PROPOSED | `docs/product/SCOPE_CHANGE_001_BYOR.md` |
+| 2026-11-21 | DEC-002 | Scope change SCR-001: PS1 BYOR player in MVP; PS2 experimental post-MVP; no distributed ROMs/BIOS/commercial titles; browser tiers | Project owner | APPROVED | `docs/product/SCOPE_CHANGE_001_BYOR.md` |
 
 ## Decision entry template
 

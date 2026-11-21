@@ -124,7 +124,7 @@ Owner decisions given on 2026-11-21 after SCR-001 was executed:
 
 ## 9. Owner decision — owner only
 
-- Owner decision: PENDING
-- Reviewer:
-- Review date:
-- Comments:
+- Owner decision: APPROVED
+- Reviewer: AUNG CHAN NYEIN
+- Review date: NOV 22 2026
+- Comments: N/A
