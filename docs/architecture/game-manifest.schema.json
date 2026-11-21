@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/retro-arcade/game-manifest.schema.json",
+  "title": "Retro Arcade Game Manifest",
+  "description": "Schema for validating game metadata across native web games and BYOR PS1/PS2 emulated titles.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "version",
+    "platform",
+    "runtimeAdapter",
+    "description",
+    "genre",
+    "orientation",
+    "input",
+    "offline",
+    "save",
+    "rightsRecord",
+    "assets"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$" },
+    "platform": {
+      "type": "string",
+      "enum": ["web-native", "arcade", "nes", "snes", "gba", "ps1", "ps2"]
+    },
+    "runtimeAdapter": {
+      "type": "string",
+      "enum": ["native-canvas", "wasm-libretro", "wasm-ps2"]
+    },
+    "description": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "genre": { "type": "string", "minLength": 1, "maxLength": 40 },
+    "orientation": { "enum": ["any", "landscape", "portrait"] },
+    "hardwareRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requiresSharedArrayBuffer": { "type": "boolean", "default": false },
+        "requiresWebGPU": { "type": "boolean", "default": false },
+        "recommendedRamMB": { "type": "integer", "minimum": 64 }
+      }
+    },
+    "romConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Required when runtimeAdapter is wasm-libretro or wasm-ps2 (Bring Your Own ROM).",
+      "required": ["byorRequired", "acceptedExtensions"],
+      "properties": {
+        "byorRequired": { "type": "boolean" },
+        "coreName": { "type": "string", "minLength": 1 },
+        "acceptedExtensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^\\.[a-z0-9]+$"
+          }
+        },
+        "requiresBios": { "type": "boolean", "default": false },
+        "biosFiles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "discCount": { "type": "integer", "minimum": 1, "maximum": 8, "default": 1 },
+        "supportsM3uPlaylist": { "type": "boolean", "default": false }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyboard", "touch", "gamepad"],
+      "properties": {
+        "keyboard": { "type": "boolean" },
+        "touch": { "type": "boolean" },
+        "gamepad": { "type": "boolean" },
+        "controllerProfile": {
+          "type": "string",
+          "enum": ["arcade-4btn", "dpad-standard", "ps1-dualshock", "ps2-dualshock2"]
+        }
+      }
+    },
+    "offline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported"],
+      "properties": {
+        "supported": { "type": "boolean" },
+        "storageStrategy": {
+          "type": "string",
+          "enum": ["cache-storage", "fs-access-handle", "indexeddb-blob"]
+        },
+        "requiredAssets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "save": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported", "schemaVersion"],
+      "properties": {
+        "supported": { "type": "boolean" },
+        "schemaVersion": { "type": "integer", "minimum": 1 },
+        "supportsSaveStates": { "type": "boolean", "default": false },
+        "supportsVirtualMemoryCard": { "type": "boolean", "default": false }
+      }
+    },
+    "rightsRecord": { "type": "string", "minLength": 1 },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "required"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "required": { "type": "boolean" },
+          "mediaType": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }
+        }
+      }
+    },
+    "thumbnail": { "type": "string" },
+    "releaseStatus": {
+      "enum": ["draft", "rights-review-required", "rights-cleared", "qa", "accepted", "retired"]
+    }
+  }
+}

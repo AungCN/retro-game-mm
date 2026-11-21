@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.*
+
+# Build output
+dist/
+build/
+out/
+coverage/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.cache/
+.vite/
+playwright-report/
+test-results/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local test artifacts
+screenshots/local/
+artifacts/local/
+
+# Retro ROMs, Disc Images, BIOS, and Virtual Memory Cards (Never commit copyrighted binaries)
+*.iso
+*.chd
+*.bin
+*.cue
+*.pbp
+*.mcr
+*.ps2

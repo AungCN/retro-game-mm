@@ -1,0 +1,36 @@
+{
+  "id": "game-001-example",
+  "title": "Example Original Arcade Game",
+  "version": "0.1.0",
+  "description": "Replace this placeholder with the approved description for the first original or rights-cleared game.",
+  "genre": "arcade",
+  "orientation": "any",
+  "input": {
+    "keyboard": true,
+    "touch": true,
+    "gamepad": false
+  },
+  "offline": {
+    "supported": true,
+    "requiredAssets": ["games/game-001-example/game.js", "games/game-001-example/assets/sprites.png"]
+  },
+  "save": {
+    "supported": false,
+    "schemaVersion": 1
+  },
+  "rightsRecord": "docs/games/GAME_001_FIRST_GAME_BRIEF.md",
+  "assets": [
+    {
+      "path": "games/game-001-example/game.js",
+      "required": true,
+      "mediaType": "text/javascript"
+    },
+    {
+      "path": "games/game-001-example/assets/sprites.png",
+      "required": true,
+      "mediaType": "image/png"
+    }
+  ],
+  "thumbnail": "games/game-001-example/thumbnail.png",
+  "releaseStatus": "draft"
+}
