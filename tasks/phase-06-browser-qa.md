@@ -1,6 +1,6 @@
 # Phase 06 — Browser QA, Accessibility, and Web Release Readiness
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Dependencies: Phases 02–05 (including 04B) accepted
 
 ## Objective
@@ -29,6 +29,23 @@ Verify the web product against approved requirements and prepare a controlled re
 - [ ] Licensing/provenance records are complete.
 - [ ] Deployment and rollback instructions are documented.
 - [ ] Owner explicitly authorizes web release.
+
+## AI report (draft v0.1, DEC-003 — partial)
+- Summary of QA done:
+  - 77 unit tests and 5 Playwright e2e tests on the installed Chrome;
+  - three-way TypeScript typecheck;
+  - manifest validation;
+  - `npm audit` (0 vulnerabilities);
+  - a risky-pattern scan (no innerHTML or eval in app code);
+  - threat model (`docs/quality/THREAT_MODEL.md`);
+  - GPL-3.0 `LICENSE` added (verbatim, SHA-256 `3972dc97…fb36986`).
+- Not done:
+  - Safari and Firefox matrix (manual checklist in SPIKE-001);
+  - accessibility review;
+  - performance against targets on real games;
+  - deployment and rollback procedure;
+  - independent security review.
+- Release is not ready; owner decision required.
 
 ## Human evaluation — owner only
 - Reviewer:

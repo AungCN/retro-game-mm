@@ -1,0 +1,28 @@
+{
+  "manifestVersion": 1,
+  "id": "reversi",
+  "title": "Reversi",
+  "version": "0.1.0",
+  "platform": "web-native",
+  "runtimeAdapter": "native-canvas",
+  "description": "Place discs to outflank and flip your opponent's. Corners are precious. Play the computer or a friend on the same device.",
+  "genre": "board",
+  "orientation": "any",
+  "input": {
+    "keyboard": true,
+    "touch": true,
+    "gamepad": false
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "bundled",
+    "requiredAssets": []
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1
+  },
+  "rightsRecord": "docs/games/GAME_004_REVERSI.md",
+  "assets": [],
+  "releaseStatus": "in-development"
+}

@@ -58,8 +58,11 @@ public/
 ## Game isolation
 
 - **Native games** are compiled into the application, not loaded as remote plugins. A registry/manifest boundary keeps the catalogue and launcher unaware of internal game implementation details.
-- **Emulator adapters** run the emulator core in a same-origin iframe (ADR-0002). The iframe is a lifecycle and licence boundary: removing it releases the core's memory, and the GPL core stays a separate program loaded from its own files. It is not a security sandbox, which is why only pinned, reviewed cores are loaded.
-- The iframe document gets the same COOP/COEP/CORP headers and a CSP with `frame-ancestors 'self'` (SECURITY_GUIDELINES.md).
+- **Emulator adapters** run the emulator core inside an inner sandboxed srcdoc iframe (opaque origin) created by a same-origin outer relay frame (ADR-0002).
+  - Removing the outer frame releases the core's memory.
+  - The GPL core stays a separate program loaded from its own files.
+  - The sandbox keeps emulator code and untrusted disc data away from the app's storage.
+- The outer frame document gets COOP/COEP/CORP, the emulator CSP (`frame-ancestors 'self'`), and its own Permissions-Policy (SECURITY_GUIDELINES.md).
 
 ## Error boundaries
 

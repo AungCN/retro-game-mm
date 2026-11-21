@@ -46,7 +46,12 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval
 
 - Cores are self-hosted, pinned to an exact version, and verified by SHA-256 when fetched at build time. They are never loaded from a third-party CDN at runtime.
 - Each shipped core has a rights record (`docs/product/GAME_CATALOG_POLICY.md`, Emulator cores).
-- Emulator adapters run in a same-origin iframe (ADR-0002) and talk to the host only through a typed message protocol. A same-origin iframe is a lifecycle and licence boundary, not a security sandbox; it does not make untrusted code safe, which is why only pinned, reviewed cores are loaded.
+- Emulator adapters use two frames (ADR-0002):
+  - A same-origin outer relay, served offline by the service worker, talks to the host with origin, nonce and shape checks.
+  - An inner `sandbox="allow-scripts"` srcdoc frame (opaque origin) runs EmulatorJS and the disc. It cannot read the app's DOM, storage, saves or file handles, and its CSP blocks any connection to other origins. This is verified by the e2e test.
+  - `postMessage(…, '*')` is used only on the sandbox edge, where the opaque origin cannot be named; receivers check `event.source`.
+- The emulator frame document alone gets a Permissions-Policy delegating gamepad, fullscreen and screen-wake-lock to its sandbox.
+- The threat model is `docs/quality/THREAT_MODEL.md`.
 
 ## File access
 

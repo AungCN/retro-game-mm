@@ -32,9 +32,9 @@ This roadmap is the single index for phase status. Phase files contain the detai
 
 ## Current project checkpoint
 
-- Current phase: Phase 00 — Project Discovery
-- Current phase status: AWAITING_EVALUATION (scope change SCR-001 executed; owner evaluation pending)
-- Application code started: No (documentation starter kit only)
+- Current phase: Draft-first build across Phases 02–06 and 04B (DEC-003; branch `draft/v0.1-first-build`)
+- Current phase status: AWAITING_EVALUATION (draft v0.1; Phase 06 partial)
+- Application code started: Yes (draft v0.1)
 - Approved technology stack: No
 - First game selected: No
 - Product owner: To be completed

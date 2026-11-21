@@ -1,0 +1,37 @@
+{
+  "name": "retro-arcade",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Browser-first retro arcade with offline play and a BYOR PS1 player. Study and research project; not for commercial use.",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run validate:manifests && npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "validate:manifests": "node scripts/validate-manifests.mjs",
+    "fetch:emulator": "node scripts/fetch-emulator.mjs",
+    "fetch:fixtures": "node scripts/fetch-test-fixtures.mjs",
+    "audit:deps": "npm audit --omit=dev && npm audit"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "ajv": "8.20.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  }
+}

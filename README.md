@@ -2,9 +2,9 @@
 
 A documentation-first starter kit for building a modular retro-style game collection that runs in modern web browsers, supports offline play, and can later be packaged for Android and iOS.
 
-> **What this bundle is:** a product, architecture, AI workflow, task-planning, and evaluation blueprint.
+> **Status:** first working draft (v0.1, branch `draft/v0.1-first-build`), built in draft-first mode (DEC-003) for owner review. It is a study and research project, not for commercial use. Technology choices remain proposals until the owner accepts the ADRs.
 >
-> **What this bundle is not:** a finished game application. The source folders are intentionally scaffolding only. Technology choices are proposals until the project owner accepts the relevant architecture decision records (ADRs).
+> **Licence:** GPL-3.0-or-later (`LICENSE`). Third-party emulator components keep their own licences; see `docs/games/PS1_PLAYER_SPEC.md`.
 
 ## Product concept
 
@@ -20,6 +20,41 @@ Build a browser-first arcade hub containing independently maintained game module
 4. **Human approval gates:** the AI may propose, implement, and test, but it cannot approve its own plan, accept a phase, merge to the protected branch, or release.
 5. **Rights-cleared content:** only original, public-domain, or appropriately licensed code, game names, art, sound, and other assets may be distributed.
 6. **Small changes:** implement one approved task at a time, with reviewable commits and evidence.
+
+## Running the draft
+
+Requires Node.js ≥ 22.12 (developed on Node 26 on an Apple M4) and Google Chrome for the end-to-end tests.
+
+```sh
+npm ci --ignore-scripts      # pinned dependencies; no package install scripts are needed
+npm run fetch:emulator       # EmulatorJS 4.2.3 + PS1 core, sha512-verified, into public/emulator/ejs/ (gitignored)
+npm run fetch:fixtures       # optional: MIT PS1 test programs for e2e tests, into test-fixtures/local/ (gitignored)
+npm run dev                  # http://localhost:5173 (no service worker in dev)
+npm run build && npm run preview   # production build on http://localhost:4173, with service worker and offline support
+```
+
+Checks:
+
+```sh
+npm run typecheck            # app, Node config, and test TypeScript
+npm test                     # unit tests (Vitest)
+npm run test:e2e             # Playwright with the installed Chrome: headers/CSP, game lifecycle, offline, sandboxed PS1 flow
+npm run validate:manifests   # every game manifest against the JSON Schema
+npm run audit:deps           # npm audit
+```
+
+What is in the draft:
+
+- **Library, game details, player, settings, about.** React shell with hash routes; works offline after the first visit.
+- **Comet Courier.** An original Canvas 2D game with keyboard, touch, and gamepad input, pause on focus loss, and a saved best score.
+- **Chess, Checkers, Reversi.** Traditional board games with original rule implementations, a computer opponent at three levels (in a Web Worker), two-player mode, undo, autosave/resume, and accessible keyboard/touch boards. The library has search and genre filters.
+- **PS1 Player (bring your own disc).**
+  - Link discs (desktop Chromium) or upload them (Safari/Firefox; copied into browser storage by default).
+  - Optional BIOS, or the built-in replacement.
+  - Memory cards and save states stored per disc, with `.zip` backup/restore.
+  - An offline emulator package.
+  - The emulator runs in an opaque-origin sandbox.
+- **Security.** COOP/COEP/CORP everywhere, a strict shell CSP, and emulator relaxations confined to its frame (DEC-004). See `docs/quality/THREAT_MODEL.md`.
 
 ## Start here
 

@@ -1,0 +1,28 @@
+{
+  "manifestVersion": 1,
+  "id": "checkers",
+  "title": "Checkers",
+  "version": "0.1.0",
+  "platform": "web-native",
+  "runtimeAdapter": "native-canvas",
+  "description": "English draughts on an 8\u00d78 board: jump to capture, chain multiple jumps, and crown your pieces. Play the computer or a friend.",
+  "genre": "board",
+  "orientation": "any",
+  "input": {
+    "keyboard": true,
+    "touch": true,
+    "gamepad": false
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "bundled",
+    "requiredAssets": []
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1
+  },
+  "rightsRecord": "docs/games/GAME_003_CHECKERS.md",
+  "assets": [],
+  "releaseStatus": "in-development"
+}

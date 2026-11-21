@@ -1,0 +1,73 @@
+# Game Specification — reversi Reversi
+
+- Game ID: reversi
+- Display title: Reversi
+- Status: IN_DEVELOPMENT (draft v0.1, DEC-003)
+- Spec owner: Project owner
+- Related phase/task: Phase 04 (`tasks/phase-04-game-library.md`)
+
+## 1. Game concept
+
+Reversi on an 8×8 board: black moves first; a move must outflank and flip at least one opposing disc; a side with no legal move passes automatically; the game ends when neither side can move, and the side with more discs wins.
+
+Modes: against the computer (Easy, Medium, Hard) or two players on the same device. Undo; the game in progress is saved automatically and resumed on return.
+
+## 2. Player experience
+
+- Genre: board (traditional, public-domain rules)
+- Single-player / multiplayer: single-player vs. computer, or local two-player (no network play)
+- Pause behavior: pause button or automatic on hidden tab / focus loss; the board is disabled while paused and any computer search is abandoned and re-requested on resume
+- Restart behavior: New game button
+
+## 3. Controls
+
+| Input type | Mapping | Required? |
+|---|---|---|
+| Mouse / touch | Click/tap a highlighted square | Yes |
+| Keyboard | Arrow keys move the focus square (Home/End along a row); Enter/Space selects; toolbar buttons are reachable with Tab | Yes |
+| Gamepad | Not supported | No |
+
+The board is an ARIA grid of real buttons with one tab stop; every square has a spoken label (for example "e4, white pawn, can move here"), and turn/result changes are announced through a status region.
+
+## 4. Platform and viewport
+
+- Orientation: any; the board scales to the viewport (side panel moves below on narrow screens)
+- Audio: none
+- Reduced motion: no animations
+
+## 5. Save data
+
+- Save supported: yes — mode, level, current position, and the last 400 moves of notation
+- Schema version: 1
+- Save trigger: after every move and on pause/exit
+- Restore behavior: the saved position is validated structurally (`validateReversiState`); anything invalid is discarded and a new game starts
+
+## 6. Offline requirements
+
+- Offline supported: yes — part of the app bundle (rules, AI worker); no network requests
+
+## 7. Technical implementation
+
+- Renderer: DOM board (`src/game-modules/board/BoardView.ts`) shared by all board games
+- Module: `src/game-modules/reversi/module.ts` (extends `BoardGameModule`); rules `rules.ts`; computer player `ai.ts`, run in the shared worker `src/game-modules/board/ai-worker.ts`
+- Computer player: Alpha-beta search with positional weights (corner-adjacent squares penalised only while the corner is empty) and mobility; depth 1/3/6 for Easy/Medium/Hard. Measured Hard ≈ 1 s per move on an Apple M4.
+- Dependencies: none
+- Tests: Opening moves, flipping, passing, game end, and corner preference are unit-tested. (`tests/unit/board-games.test.ts`); browser tests in `tests/e2e/board-games.spec.ts`
+
+## 8. Rights and provenance
+
+- Original developer/creator: this project (implementation written by the AI coding agent at the owner's request, 2026-11-22); rules are traditional and in the public domain
+- Code source and license: original; GPL-3.0-or-later (repository licence). No third-party engine, opening book, or evaluation tables were copied
+- Art/sprite/font sources: CSS discs; no image assets
+- Music/sound: none
+- Name/trademark notes: "Reversi" is the generic name of the traditional game; the trademarked name "Othello" is deliberately not used
+- Permission for offline distribution / mobile packaging: yes (original implementation)
+- Rights reviewer:
+- Rights decision: PENDING
+
+## 9. Human evaluation
+
+Reviewer:
+Date:
+Decision: PENDING
+Comments:
