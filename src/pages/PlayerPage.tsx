@@ -5,7 +5,7 @@ import { findGame, isByor } from '../domain/games/registry';
 import { GameHost } from '../game-runtime/host/GameHost';
 import type { ControlId, GameError, GameModule, GameStatus } from '../game-runtime/contracts/types';
 import { isDiscSwappable, isSaveStateCapable } from '../game-runtime/contracts/types';
-import { CometCourier } from '../game-modules/comet-courier/module';
+import { NATIVE_GAMES } from '../game-modules';
 import { LibretroAdapter } from '../game-runtime/adapters/wasm-libretro/LibretroAdapter';
 import { discState, getBios, getDisc, openDiscFiles } from '../platform/files/userFiles';
 import { writeZip } from '../platform/zip/zip';
@@ -43,7 +43,9 @@ export function PlayerPage({ id, discId }: { id: string; discId?: string | undef
     (async () => {
       let mod: GameModule;
       if (!isByor(game)) {
-        mod = new CometCourier();
+        const factory = NATIVE_GAMES[game.id];
+        if (!factory) throw new Error('This game is not available in this version.');
+        mod = factory.create();
       } else {
         if (!discId) throw new Error('Choose a disc from the PS1 Player page first.');
         if (!game.hardwareRequirements?.browserTiers.includes(caps.tier)) throw new Error('The PS1 player is not supported in this browser yet.');
@@ -82,6 +84,11 @@ export function PlayerPage({ id, discId }: { id: string; discId?: string | undef
   const swappable = module && isDiscSwappable(module) ? module : null;
   const discSlots = swappable?.listDiscSlots() ?? [];
   const exit = () => navigate(`/game/${game.id}`);
+  // After Start/Resume, give keyboard focus to the game (board games move it to their board themselves).
+  const focusStage = () => {
+    const stage = container.current;
+    if (stage && !stage.contains(document.activeElement)) stage.focus({ preventScroll: true });
+  };
 
   const act = async (fn: () => Promise<void>, ok: string) => {
     try {
@@ -97,9 +104,9 @@ export function PlayerPage({ id, discId }: { id: string; discId?: string | undef
       <div className="player__bar" role="toolbar" aria-label="Game controls">
         <button onClick={exit}>← Exit</button>
         <strong className="player__title">{game.title}</strong>
-        {status === 'ready' && <button className="button--primary" onClick={() => void host?.start()}>{isByor(game) ? 'Load disc' : 'Start'}</button>}
+        {status === 'ready' && <button className="button--primary" onClick={() => void host?.start().then(focusStage)}>{isByor(game) ? 'Load disc' : 'Start'}</button>}
         {status === 'running' && <button onClick={() => void host?.pause()}>Pause</button>}
-        {status === 'paused' && <button className="button--primary" onClick={() => void host?.resume()}>Resume</button>}
+        {status === 'paused' && <button className="button--primary" onClick={() => void host?.resume().then(focusStage)}>Resume</button>}
         <button aria-pressed={muted} onClick={() => { const m = !muted; setMuted(m); host?.audio.setMuted(m); }}>{muted ? 'Unmute' : 'Mute'}</button>
         {saveStates && (status === 'running' || status === 'paused') && [1, 2, 3].map((slot) => (
           <span key={slot} className="slot">
@@ -118,8 +125,8 @@ export function PlayerPage({ id, discId }: { id: string; discId?: string | undef
           {error.recoverable && <button onClick={() => setError(null)}>Dismiss</button>}
         </div>
       )}
-      <div className="player__stage" ref={container} />
-      {!isByor(game) && (
+      <div className={game.genre === 'board' ? 'player__stage player__stage--board' : 'player__stage'} ref={container} tabIndex={-1} aria-label={`${game.title} game area`} />
+      {game.input.controllerProfile === 'dpad-standard' && (
         <div className="touch-controls" aria-hidden="true">
           <button {...touch('left')}>◀</button>
           <button {...touch('start')}>❚❚</button>

@@ -17,6 +17,21 @@ const CONTROLS: Record<string, [string, string][]> = {
     ['Pause / resume', 'Enter or P · gamepad Start · Pause button'],
     ['Restart after game over', 'Enter or Space · gamepad A'],
   ],
+  chess: [
+    ['Move a piece', 'Click or tap a piece, then its destination · or arrow keys to move around the board and Enter/Space to select'],
+    ['Promotion', 'Choose the new piece from the buttons that appear'],
+    ['New game, undo, opponent, level', 'Buttons and menus above the board'],
+  ],
+  checkers: [
+    ['Move or jump', 'Click or tap a piece, then where it should land (multi-jumps are taken in one go) · arrow keys + Enter/Space'],
+    ['Rules', 'Captures are mandatory; reaching the far row crowns a piece and ends the move'],
+    ['New game, undo, opponent, level', 'Buttons and menus above the board'],
+  ],
+  reversi: [
+    ['Place a disc', 'Click or tap a highlighted square · arrow keys + Enter/Space'],
+    ['Passing', 'Happens automatically when a side has no legal move'],
+    ['New game, undo, opponent, level', 'Buttons and menus above the board'],
+  ],
   'ps1-player': [
     ['D-pad', 'Arrow keys (EmulatorJS default mapping)'],
     ['Face buttons', 'Z / X / A / S (EmulatorJS defaults); a standard gamepad also works'],
