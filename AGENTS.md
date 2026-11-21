@@ -31,6 +31,17 @@ The workflow has separate gates:
 
 Do not infer approval from a vague message, silence, a passing build, a previous phase's approval, or your own recommendation. Ask for explicit authorization before implementation when the phase does not contain an owner-recorded approval.
 
+### Owner override — draft-first mode (DEC-003, 2026-11-22)
+
+The owner suspended per-phase plan approval so that a complete first draft can be built across phases and reviewed afterwards. While this override is in force:
+
+- The agent may plan and implement work in any phase without waiting for per-phase plan approval.
+- Drafted phases are set to `AWAITING_EVALUATION`; they are never set to `ACCEPTED` by the agent.
+- Everything else in this file still applies: owner-only fields stay owner-only; no push to or merge of the protected branch; dependency, licensing, and security rules; honest reporting.
+- The project is for study and research, not commercial use (owner statement, 2026-11-22).
+
+The owner can end the override at any time.
+
 ### Owner-only fields
 
 Do not create, edit, or change the following on behalf of the owner:
