@@ -4,29 +4,61 @@
 
 - Keep game preferences, ROM references, BIOS files, and saves 100% local by default.
 - Do not introduce accounts, analytics, advertising, or telemetry without explicit product approval.
-- Never upload user-selected ROM or BIOS files to any external server.
+- Never upload user-selected ROM or BIOS files to any external server (PRD FR-027).
 - Do not store credentials or secrets in source control, browser storage, or game save data.
 
-## Cross-Origin Isolation & WASM Threading Headers
+## Cross-origin isolation and WASM threading headers
 
-Modern WebAssembly PS1 and PS2 emulators require `SharedArrayBuffer` for multi-threaded CPU/GPU/SPU emulation. Both local development servers (e.g., Vite) and production static hosts **must** serve the following HTTP response headers:
+WebAssembly emulator cores that use threads need `SharedArrayBuffer`, which browsers only expose on cross-origin isolated pages. Whether the PS1 core needs threads is a SPIKE-001 question; the platform is isolated in every case so that adapters can rely on it.
+
+Every response — HTML, JavaScript, workers, `.wasm`, data files, images — must carry:
 
 ```http
 Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Resource-Policy: same-origin
 ```
 
-- Any external assets (fonts, cover art, CDN scripts) must either be self-hosted locally or served with `Cross-Origin-Resource-Policy: cross-origin` / CORS headers so COEP does not block them.
-- Verify `window.crossOriginIsolated === true` before initializing multi-threaded WASM cores; fall back to single-threaded cores or display a clear diagnostic warning if disabled.
+- `credentialless` COEP is not used: Safari (Tier 2) does not support it.
+- **Development:** the Vite configuration must set identical headers in both `server.headers` and `preview.headers` (ADR-0001). Checking the dev server alone is not enough.
+- **Production:** the host must support custom response headers on all static files (ADR-0001). GitHub Pages cannot.
+- **Offline:** the service worker must return cached responses with these headers intact, and the navigation response for the app shell must still produce `crossOriginIsolated === true` when served from Cache Storage with no network. This is tested (TEST_STRATEGY.md).
+- Self-host every asset (fonts, images, cores). Cross-origin resources are blocked by COEP and are not used.
+- Check `crossOriginIsolated` before starting a core that needs threads; if it is false, show the plain-language capability message (FR-019) rather than failing silently.
+
+## Content Security Policy (baseline)
+
+```http
+Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+```
+
+- Deliver the CSP as a response header (`frame-ancestors` is ignored in a `<meta>` tag).
+- The emulator iframe document uses the same policy except `frame-ancestors 'self'`, so only the platform shell can embed it.
+- `'wasm-unsafe-eval'` allows WebAssembly compilation without allowing JavaScript `eval`.
+- `connect-src 'self'` is part of the FR-027 guarantee: the page cannot send user files to another origin.
+- Any relaxation the emulator core requires (for example `'unsafe-eval'`, if SPIKE-001 A3 shows it is needed) must be scoped to the emulator iframe's own CSP, documented in ADR-0002, and approved by the owner — never applied to the platform shell.
+
+## Emulator cores and supply chain
+
+- Cores are self-hosted, pinned to an exact version, and verified by SHA-256 when fetched at build time. They are never loaded from a third-party CDN at runtime.
+- Each shipped core has a rights record (`docs/product/GAME_CATALOG_POLICY.md`, Emulator cores).
+- Emulator adapters run in a same-origin iframe (ADR-0002) and talk to the host only through a typed message protocol. A same-origin iframe is a lifecycle and licence boundary, not a security sandbox; it does not make untrusted code safe, which is why only pinned, reviewed cores are loaded.
+
+## File access
+
+- Request read-only access to user files. Never request write access to user-selected files or folders.
+- Prefer the file picker for single discs; use a directory grant only when an `.m3u` playlist needs sibling files.
+- Resolve `.m3u` entries only inside the granted directory; reject absolute paths, `..` segments, and URLs.
+- Do not read a whole disc image into memory just to validate it; validate format from headers and size.
 
 ## Code, license, and dependency safety
 
-- **Repository Hygiene:** Keep `.gitignore` configured to exclude all ROM, ISO, CHD, BIN/CUE, and BIOS extensions (`*.iso`, `*.chd`, `*.bin`, `*.cue`, `*.pbp`, `*.mcr`, `*.ps2`) so copyrighted binaries are never committed to open-source version control.
-- **License Isolation:** Keep GPLv3 emulator cores (such as RetroArch / EmulatorJS builds) dynamically loaded as standalone WASM/JS worker modules rather than statically bundling them into MIT/Apache frontend UI source files.
-- **Untrusted Input:** Treat imported `.m3u` playlists, catalog metadata, and save files as untrusted input; sanitize paths to prevent directory traversal outside the user-granted directory handle.
+- **Repository hygiene:** `.gitignore` excludes ROM, disc-image, BIOS, memory-card and save-state extensions plus fetched-binary folders (`public/cores/`, `test-fixtures/local/`, `spike/vendor/`, `spike/fixtures/`). `.gitignore` only protects untracked files; reviewers must still check diffs for binaries.
+- **Licence boundary:** emulator cores and their frontend (for example EmulatorJS, GPL-3.0; libretro cores, often GPL-2.0) are loaded as separate files rather than bundled into the platform's own source. The repository direction is GPL-3.0-or-later (owner decision D1); licence compatibility of each core is reviewed in ADR-0001 before distribution.
+- **Untrusted input:** treat imported `.m3u` playlists, catalogue metadata, save files, memory cards, and save states as untrusted; validate formats and versions, and reject without altering existing saves.
 
 ## Browser storage
 
-- Store only necessary data in IndexedDB and Cache Storage.
-- Namespace saves by game ID and validate schema versions before restoring emulator state.
-- Handle storage quota errors gracefully and provide manual `.zip` export for user saves.
+- Store only necessary data in IndexedDB, Cache Storage, and OPFS.
+- Namespace saves by game ID / disc ID and validate schema versions (and, for save states, core version) before restoring emulator state.
+- Request persistent storage where supported and handle quota errors gracefully; provide `.zip` export for user saves (FR-022, Must on Tier 2).
