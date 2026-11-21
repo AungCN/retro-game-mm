@@ -1,0 +1,165 @@
+{
+  "spike": "SPIKE-001",
+  "date": "2026-11-22",
+  "environment": {
+    "machine": "Apple M4, 16 GB, macOS 26.6",
+    "browser": "Google Chrome 158.0.8127.37 headless=new, fresh profiles, --enable-blink-features=ForceEagerMeasureMemory, --autoplay-policy=no-user-gesture-required",
+    "emulator": "@emulatorjs/emulatorjs 4.2.3 + @emulatorjs/core-pcsx_rearmed 4.2.3 (npm tarballs, integrity verified), served from same origin, EJS_disableDatabases=true, no BIOS (HLE)",
+    "boundary": "core in same-origin iframe /emu.html; host page emu-host.html"
+  },
+  "csp_runs": {
+    "baseline (script-src 'self' 'wasm-unsafe-eval'; connect-src 'self')": {
+      "booted": false,
+      "blocking": [
+        "EvalError: unsafe-eval required (compression/extract7z.js unpacks the .data core archive)"
+      ]
+    },
+    "script-src + 'unsafe-eval' blob:": {
+      "booted": false,
+      "blocking": [
+        "connect-src blocked blob: (core fetches its wasm from a blob: URL)"
+      ]
+    },
+    "script-src + 'unsafe-eval' blob:; connect-src + blob:": {
+      "booted": true
+    }
+  },
+  "runs": {
+    "animated-triangle.exe, non-threaded": {
+      "gameStartMs": 712,
+      "fps": {
+        "frames": 601,
+        "seconds": 10.01,
+        "fps": 60.02
+      },
+      "memoryBeforeMB": 0,
+      "memoryRunningMB": 10,
+      "memoryAfterIframeRemovedMB": 2,
+      "threads": false,
+      "coreFile": [
+        "cores/pcsx_rearmed-wasm.data (1016 KB)"
+      ],
+      "crossOriginRequests": [],
+      "cspViolations": [
+        [
+          "connect-src",
+          "https://cdn.emulatorjs.org/stable/data/version.json",
+          "src/emulator.js"
+        ],
+        [
+          "style-src-attr",
+          "inline",
+          "src/emulator.js"
+        ]
+      ],
+      "pageErrors": [
+        "Failed to fetch"
+      ],
+      "indexedDbCreated": [
+        "/data/saves"
+      ]
+    },
+    "benchmark.exe, non-threaded, 20 s fps window": {
+      "gameStartMs": 481,
+      "fps": {
+        "frames": 1201,
+        "seconds": 20.01,
+        "fps": 60.01
+      },
+      "memoryBeforeMB": 0,
+      "memoryRunningMB": 10,
+      "memoryAfterIframeRemovedMB": 2,
+      "threads": false,
+      "coreFile": [
+        "cores/pcsx_rearmed-wasm.data (1016 KB)"
+      ],
+      "crossOriginRequests": [],
+      "cspViolations": [
+        [
+          "connect-src",
+          "https://cdn.emulatorjs.org/stable/data/version.json",
+          "src/emulator.js"
+        ],
+        [
+          "style-src-attr",
+          "inline",
+          "src/emulator.js"
+        ]
+      ],
+      "pageErrors": [
+        "Failed to fetch"
+      ],
+      "indexedDbCreated": [
+        "/data/saves"
+      ]
+    },
+    "synthetic 648 MiB file as game, non-threaded": {
+      "gameStartMs": 2126,
+      "fps": {
+        "frames": 600,
+        "seconds": 10.01,
+        "fps": 59.96
+      },
+      "memoryBeforeMB": 0,
+      "memoryRunningMB": 657,
+      "memoryAfterIframeRemovedMB": 2,
+      "threads": false,
+      "coreFile": [
+        "cores/pcsx_rearmed-wasm.data (1016 KB)"
+      ],
+      "crossOriginRequests": [],
+      "cspViolations": [
+        [
+          "connect-src",
+          "https://cdn.emulatorjs.org/stable/data/version.json",
+          "src/emulator.js"
+        ],
+        [
+          "style-src-attr",
+          "inline",
+          "src/emulator.js"
+        ]
+      ],
+      "pageErrors": [
+        "Failed to fetch"
+      ],
+      "indexedDbCreated": [
+        "/data/saves"
+      ]
+    },
+    "animated-triangle.exe, threaded core": {
+      "gameStartMs": 495,
+      "fps": {
+        "frames": 601,
+        "seconds": 10.01,
+        "fps": 60.01
+      },
+      "memoryBeforeMB": 0,
+      "memoryRunningMB": 1549,
+      "memoryAfterIframeRemovedMB": "measure timed out after 30 s",
+      "threads": true,
+      "coreFile": [
+        "cores/pcsx_rearmed-thread-wasm.data (1076 KB)"
+      ],
+      "crossOriginRequests": [],
+      "cspViolations": [
+        [
+          "connect-src",
+          "https://cdn.emulatorjs.org/stable/data/version.json",
+          "src/emulator.js"
+        ],
+        [
+          "style-src-attr",
+          "inline",
+          "src/emulator.js"
+        ]
+      ],
+      "pageErrors": [
+        "Failed to fetch"
+      ],
+      "indexedDbCreated": [
+        "/data/saves"
+      ]
+    }
+  }
+}
