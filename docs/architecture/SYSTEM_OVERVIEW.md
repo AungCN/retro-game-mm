@@ -20,7 +20,7 @@ flowchart TB
     HOST --> NATIVE[native-canvas adapter]
     NATIVE --> G1[Native Game Modules]
     HOST --> LIBRETRO[wasm-libretro adapter]
-    LIBRETRO --> FRAME[Same-origin iframe<br/>pinned PS1 core]
+    LIBRETRO --> FRAME[Outer frame, same-origin relay] --> SANDBOX[Inner sandbox, opaque origin<br/>EmulatorJS + pinned PS1 core]
     HOST -. post-MVP .-> PS2[wasm-ps2 adapter<br/>experimental, Tier 1]
     HOST --> INPUT[Input Manager]
     HOST --> AUDIO[Audio Manager]
@@ -57,7 +57,7 @@ Creates the game environment, injects approved platform services, handles lifecy
 
 Native game modules own game rules, rendering, game-specific assets, state transitions, and their own unit tests. They must not manipulate unrelated platform UI directly.
 
-Emulator adapters (ADR-0002) implement the same `GameModule` contract on the host side and run the pinned emulator core in a same-origin iframe, connected by a typed message protocol. The adapter never receives raw file handles; it reads disc data through the host's User File Service.
+Emulator adapters (ADR-0002) implement the same `GameModule` contract on the host side and run the pinned emulator core in an inner sandboxed frame behind a same-origin relay frame, connected by a typed message protocol. The adapter never receives raw file handles; it reads disc data through the host's User File Service.
 
 ### User File Service
 

@@ -35,14 +35,21 @@ Maintain one common platform-facing `GameModule` contract (`load`, `start`, `pau
 
 `docs/architecture/GAME_MODULE_CONTRACT.md` (v2) defines the interfaces.
 
-## Adapter boundary (Phase 01 proposal)
+## Adapter boundary (as built in draft v0.1)
 
-- **Where the core runs:** in a **same-origin iframe** created by the host-side adapter inside the player container. The iframe document is served with the same COOP/COEP/CORP headers and its own CSP (`frame-ancestors 'self'`).
+- **Two layers.**
+  - The host creates a same-origin **outer frame** (`/emulator/frame.html`, emulator CSP, served offline by the service worker).
+  - The outer frame fetches the emulator files and creates an **inner sandboxed `srcdoc` frame** (`sandbox="allow-scripts"`, opaque origin) that runs EmulatorJS from `blob:` URLs it creates itself. Its single inline bootstrap is allowed by SHA-256 hash.
+  - Reason: a sandboxed frame cannot be controlled by the service worker, so a single sandboxed frame could not work offline. A single same-origin frame would give emulator code full access to the app's storage.
+- **Earlier proposal (Phase 01):** a single same-origin iframe. It was replaced because the e2e test now proves the sandbox cannot reach the app's DOM, top location, IndexedDB or the network.
 - **How it talks to the host:** a typed `postMessage` protocol only. Host → iframe: `load`, `start`, `pause`, `resume`, `saveState`, `loadState`, `swapDisc`, `input`, `setMuted`, `destroy`. Iframe → host: `status`, `error`, `memoryCardChanged`, `readRange` requests. The iframe never receives raw file handles; it asks the host for byte ranges, and the host's User File Service answers.
 - **Teardown:** `destroy` sends a shutdown message, then removes the iframe. Removing the browsing context is the reliable way to release the core's WASM memory, workers, and audio. SPIKE-001 A8 measures this.
 - **Why an iframe rather than a worker only:** the EmulatorJS frontend expects a DOM and canvas. A worker-only design would need OffscreenCanvas and audio bridging work that isn't justified for the MVP.
 - **Licence boundary:** the GPL core and its frontend stay separate files loaded at runtime, not bundled into the platform's source. With a GPL-3.0-or-later repository this is not needed to avoid copyleft, but it keeps each component's licence and source offer clear. The PS1 core's GPL-2.0 status still needs a licence review (ADR-0001).
-- **Security note:** a same-origin iframe is not a security sandbox. Only pinned, SHA-256-verified, self-hosted cores are loaded.
+- **Security note:** the outer frame is same-origin (small, first-party relay code). Emulator code and untrusted disc data run only in the inner sandbox. See `docs/quality/THREAT_MODEL.md`.
+- **Sandbox compatibility shims (inner bootstrap):**
+  - in-memory `localStorage`/`sessionStorage`, because EmulatorJS reads storage even when disabled;
+  - the emulator frame's Permissions-Policy delegates gamepad, fullscreen and screen-wake-lock to the sandbox only.
 
 ## Consequences
 
