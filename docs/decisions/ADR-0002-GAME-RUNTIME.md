@@ -10,7 +10,7 @@ Multiple games need a consistent host lifecycle, input abstraction, save integra
 
 1. Canvas 2D with a project-owned lightweight runtime only (blocks PS1/PS2 expansion)
 2. Phaser as a shared 2D engine only (blocks PS1/PS2 expansion)
-3. **A Mixed Adapter Model behind a unified `GameModule` contract (Selected Direction)**
+3. **A Mixed Adapter Model behind a unified `GameModule` contract (Proposed direction, pending Phase 01 spike)**
 4. Separate isolated runtime per game without a shared contract (high maintenance)
 
 ## Evaluation criteria
@@ -33,7 +33,7 @@ Maintain one common platform-facing `GameModule` contract (`load`, `start`, `pau
 
 ## Owner decision
 
-- Decision: PROPOSED (Ready for Phase 01 sign-off)
-- Selected approach: Mixed Adapter Model (`native-canvas`, `wasm-libretro`, `wasm-ps2`) behind `GameModule`
+- Decision: PENDING
+- Selected approach:
 - Evidence/spike link: To be completed in Phase 01 spike
-- Approved by/date: 2026-11-21 (Drafted for owner approval)
+- Approved by/date:
