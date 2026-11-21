@@ -54,7 +54,7 @@ Turn the starter concept into a validated product brief and define an achievable
 - Files changed: `GOALS.md`, `PLANS.md` (checkpoint only), `CHANGELOG.md`, `docs/product/MVP_SCOPE.md`, `docs/product/PRODUCT_REQUIREMENTS.md`, `docs/product/USER_FLOWS.md`, `docs/product/RISK_REGISTER.md`, `docs/product/GAME_CATALOG_POLICY.md`, `docs/product/SCOPE_CHANGE_001_BYOR.md` (new), `docs/decisions/ADR-0002-GAME-RUNTIME.md`, `docs/decisions/ADR-0003-OFFLINE-STORAGE.md`, `harness/decision-log.md`, `harness/context/OPEN_QUESTIONS.md`, `tasks/phase-00-project-discovery.md` (this status and report).
 - Open questions: D2–D6 and the LICENSE-file step (`harness/context/OPEN_QUESTIONS.md` items 11–16); earlier questions 1, 3, 4, 7, 10 and the open parts of 2, 5, 6, 9.
 - Evidence links: `docs/product/SCOPE_CHANGE_001_BYOR.md`; Git baseline on `main` and commits on branch `phase-00/scope-change-byor` (not pushed or merged).
-- Acceptance checks (SCR-001 AC-1–AC-13): PENDING_RUN
+- Acceptance checks (SCR-001 AC-1–AC-13): 13/13 PASS on 2026-11-21 (read-only check script run locally outside the repository; AC-9 also manually reviewed). Results reported to the owner for evaluation; automated checks do not constitute Phase 00 acceptance.
 
 ## Human evaluation — owner only
 - Reviewer:
