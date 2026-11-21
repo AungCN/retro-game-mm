@@ -2,3 +2,5 @@ vendor/
 fixtures/
 dist/
 results/local/
+public/ejs/
+public/fixtures-local/
