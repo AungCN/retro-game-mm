@@ -29,6 +29,11 @@ const PAD_BUTTONS: [number, ControlId][] = [
 
 type Handler = (e: NormalizedInput) => void;
 
+export function isOwnKeyboardTarget(target: EventTarget | null): boolean {
+  if (typeof Element === 'undefined' || !(target instanceof Element)) return false;
+  return target.closest('button, a[href], input, select, textarea, [contenteditable="true"], [data-native-keys]') !== null;
+}
+
 /** Keyboard + gamepad + pointer (touch buttons) → normalized events. Attach while a game is mounted; detach on exit. */
 export class InputService {
   private handlers = new Set<Handler>();
@@ -41,6 +46,9 @@ export class InputService {
   private onKey = (ev: KeyboardEvent) => {
     const control = KEY_MAP[ev.code];
     if (!control || ev.repeat || ev.altKey || ev.metaKey || ev.ctrlKey) return;
+    // Leave keys alone when focus is on an interactive control (toolbar buttons, selects) or inside a game area that
+    // handles its own keyboard navigation (board grids mark themselves with data-native-keys).
+    if (isOwnKeyboardTarget(ev.target)) return;
     ev.preventDefault();
     this.emit({ kind: 'button', control, pressed: ev.type === 'keydown', source: 'keyboard', timestamp: ev.timeStamp });
   };
