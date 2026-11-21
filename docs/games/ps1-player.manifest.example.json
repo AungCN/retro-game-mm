@@ -1,0 +1,50 @@
+{
+  "manifestVersion": 1,
+  "id": "ps1-player",
+  "title": "PS1 Player",
+  "version": "0.1.0",
+  "platform": "ps1",
+  "runtimeAdapter": "wasm-libretro",
+  "description": "Example only. Generic player for the user's own PS1 disc images (BYOR). Ships no game content; disc images, BIOS files and saves stay on the user's device.",
+  "genre": "player",
+  "orientation": "landscape",
+  "hardwareRequirements": {
+    "requiresSharedArrayBuffer": false,
+    "requiresWebGPU": false,
+    "recommendedRamMB": 2048,
+    "browserTiers": ["tier-1", "tier-2"]
+  },
+  "romConfig": {
+    "coreId": "pcsx_rearmed",
+    "acceptedExtensions": [".chd", ".cue", ".bin", ".m3u"],
+    "biosMode": "optional",
+    "maxDiscs": 4,
+    "supportsM3uPlaylist": true
+  },
+  "input": {
+    "keyboard": true,
+    "touch": false,
+    "gamepad": true,
+    "controllerProfile": "ps1-analog-pad"
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "user-supplied",
+    "requiredAssets": ["cores/wasm-libretro/pcsx_rearmed/EXAMPLE-VERSION/core.data"]
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1,
+    "supportsSaveStates": true,
+    "supportsVirtualMemoryCard": true
+  },
+  "rightsRecord": "docs/product/GAME_CATALOG_POLICY.md",
+  "assets": [
+    {
+      "path": "cores/wasm-libretro/pcsx_rearmed/EXAMPLE-VERSION/core.data",
+      "required": true,
+      "mediaType": "application/octet-stream"
+    }
+  ],
+  "releaseStatus": "spec-draft"
+}

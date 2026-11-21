@@ -2,10 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/retro-arcade/game-manifest.schema.json",
   "title": "Retro Arcade Game Manifest",
-  "description": "Schema for validating game metadata across native web games and BYOR PS1/PS2 emulated titles.",
+  "description": "Manifest version 1. Validates catalogue entries for native web games (platform web-native) and the generic BYOR PS1/PS2 players. The manifest describes what a catalogue entry needs; how user-supplied files are stored is decided at runtime by browser tier (see ADR-0003), not here.",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "manifestVersion",
     "id",
     "title",
     "version",
@@ -21,6 +22,10 @@
     "assets"
   ],
   "properties": {
+    "manifestVersion": {
+      "description": "Version of this manifest format. Hosts reject versions they do not support.",
+      "const": 1
+    },
     "id": {
       "type": "string",
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
@@ -30,11 +35,10 @@
     "title": { "type": "string", "minLength": 1, "maxLength": 80 },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$" },
     "platform": {
-      "type": "string",
-      "enum": ["web-native", "arcade", "nes", "snes", "gba", "ps1", "ps2"]
+      "description": "In scope per SCR-001: web-native, ps1, ps2 (ps2 experimental, post-MVP).",
+      "enum": ["web-native", "ps1", "ps2"]
     },
     "runtimeAdapter": {
-      "type": "string",
       "enum": ["native-canvas", "wasm-libretro", "wasm-ps2"]
     },
     "description": { "type": "string", "minLength": 1, "maxLength": 500 },
@@ -43,36 +47,42 @@
     "hardwareRequirements": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["requiresSharedArrayBuffer", "requiresWebGPU", "browserTiers"],
       "properties": {
-        "requiresSharedArrayBuffer": { "type": "boolean", "default": false },
-        "requiresWebGPU": { "type": "boolean", "default": false },
-        "recommendedRamMB": { "type": "integer", "minimum": 64 }
+        "requiresSharedArrayBuffer": { "type": "boolean" },
+        "requiresWebGPU": { "type": "boolean" },
+        "recommendedRamMB": { "type": "integer", "minimum": 64 },
+        "browserTiers": {
+          "description": "Tiers on which the entry may launch (MVP_SCOPE.md): tier-1 desktop Chromium, tier-2 desktop Safari/Firefox, mobile.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["tier-1", "tier-2", "mobile"] }
+        }
       }
     },
     "romConfig": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Required when runtimeAdapter is wasm-libretro or wasm-ps2 (Bring Your Own ROM).",
-      "required": ["byorRequired", "acceptedExtensions"],
+      "description": "Required for the wasm-libretro and wasm-ps2 adapters; forbidden for native-canvas.",
+      "required": ["coreId", "acceptedExtensions", "biosMode"],
       "properties": {
-        "byorRequired": { "type": "boolean" },
-        "coreName": { "type": "string", "minLength": 1 },
+        "coreId": {
+          "description": "Identifier of the pinned, self-hosted emulator core; must match a core rights record.",
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
         "acceptedExtensions": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^\\.[a-z0-9]+$"
-          }
+          "items": { "type": "string", "pattern": "^\\.[a-z0-9]+$" }
         },
-        "requiresBios": { "type": "boolean", "default": false },
-        "biosFiles": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+        "biosMode": {
+          "description": "required: a user BIOS must be imported. optional: user BIOS or HLE/no-BIOS. none: the core never uses a BIOS.",
+          "enum": ["required", "optional", "none"]
         },
-        "discCount": { "type": "integer", "minimum": 1, "maximum": 8, "default": 1 },
+        "maxDiscs": { "type": "integer", "minimum": 1, "maximum": 8, "default": 1 },
         "supportsM3uPlaylist": { "type": "boolean", "default": false }
       }
     },
@@ -85,22 +95,22 @@
         "touch": { "type": "boolean" },
         "gamepad": { "type": "boolean" },
         "controllerProfile": {
-          "type": "string",
-          "enum": ["arcade-4btn", "dpad-standard", "ps1-dualshock", "ps2-dualshock2"]
+          "enum": ["arcade-4btn", "dpad-standard", "ps1-digital-pad", "ps1-analog-pad", "ps2-analog-pad"]
         }
       }
     },
     "offline": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["supported"],
+      "required": ["supported", "contentSource"],
       "properties": {
         "supported": { "type": "boolean" },
-        "storageStrategy": {
-          "type": "string",
-          "enum": ["cache-storage", "fs-access-handle", "indexeddb-blob"]
+        "contentSource": {
+          "description": "bundled: all game content ships with the app. user-supplied: the user provides disc images (BYOR); only the runtime/core ships.",
+          "enum": ["bundled", "user-supplied"]
         },
         "requiredAssets": {
+          "description": "Shipped files (game code/assets or emulator core files) that must be cached before the entry can be offline-ready.",
           "type": "array",
           "uniqueItems": true,
           "items": { "type": "string", "minLength": 1 }
@@ -135,7 +145,42 @@
     },
     "thumbnail": { "type": "string" },
     "releaseStatus": {
-      "enum": ["draft", "rights-review-required", "rights-cleared", "qa", "accepted", "retired"]
+      "description": "Mirrors GAME_CATALOG_POLICY.md statuses.",
+      "enum": ["idea", "spec-draft", "rights-review-required", "rights-cleared", "in-development", "qa", "accepted", "retired"]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "platform": { "const": "web-native" } }, "required": ["platform"] },
+      "then": { "properties": { "runtimeAdapter": { "const": "native-canvas" } } }
+    },
+    {
+      "if": { "properties": { "platform": { "const": "ps1" } }, "required": ["platform"] },
+      "then": { "properties": { "runtimeAdapter": { "const": "wasm-libretro" } } }
+    },
+    {
+      "if": { "properties": { "platform": { "const": "ps2" } }, "required": ["platform"] },
+      "then": { "properties": { "runtimeAdapter": { "const": "wasm-ps2" } } }
+    },
+    {
+      "if": { "properties": { "runtimeAdapter": { "enum": ["wasm-libretro", "wasm-ps2"] } }, "required": ["runtimeAdapter"] },
+      "then": {
+        "required": ["romConfig", "hardwareRequirements"],
+        "properties": {
+          "offline": { "properties": { "contentSource": { "const": "user-supplied" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "runtimeAdapter": { "const": "native-canvas" } }, "required": ["runtimeAdapter"] },
+      "then": {
+        "not": { "required": ["romConfig"] },
+        "properties": { "offline": { "properties": { "contentSource": { "const": "bundled" } } } }
+      }
+    },
+    {
+      "if": { "properties": { "runtimeAdapter": { "const": "wasm-ps2" } }, "required": ["runtimeAdapter"] },
+      "then": { "properties": { "hardwareRequirements": { "properties": { "browserTiers": { "items": { "const": "tier-1" } } } } } }
+    }
+  ]
 }
