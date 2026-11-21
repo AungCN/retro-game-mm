@@ -1,6 +1,6 @@
 # Phase 04 — Game Catalogue and Library Expansion
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Dependencies: Phase 03 accepted
 
 ## Objective
@@ -36,6 +36,17 @@ Make the catalogue extensible and add a small set of additional games without co
 - [ ] Game switch/exit does not leak timers, audio, listeners, or state.
 - [ ] Regression suite passes.
 - [ ] Human reviewer accepts the library behavior.
+
+## AI report (draft v0.1, DEC-003)
+- Summary:
+  - Catalogue registry of bundled manifests only.
+  - Manifests validated three ways: JSON Schema at build time (`npm run validate:manifests`), a runtime structural check (`assertManifest`), and unit tests that keep the two consistent.
+  - Catalogue cards show the offline/unsupported state.
+- Evidence: unit "every catalogue manifest passes the JSON Schema and the runtime check"; "runtime check rejects what the schema rejects".
+- Not done:
+  - search/filter (FR-012, Should);
+  - favourites (FR-013, Could);
+  - additional native games beyond Comet Courier.
 
 ## Human evaluation — owner only
 - Reviewer:

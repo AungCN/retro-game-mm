@@ -1,6 +1,6 @@
 # Phase 01 — Technical Architecture and Design Approval
 
-- Status: IN_PROGRESS
+- Status: AWAITING_EVALUATION
 - Dependencies: Phase 00 accepted
 
 ## Objective
@@ -51,6 +51,7 @@ Select and document a maintainable technology stack and approve the application,
 - Updated architecture documents
 
 ## AI report
+- Update (2026-11-22, final for Phase 01): SPIKE-001 emulator checks completed in Chrome (A3 boot, A4 whole-file loading, A7 60 fps, A8 teardown); D3 implemented provisionally as an OPFS copy with session fallback; Safari/Firefox items moved to the draft-build QA (Phase 06). The owner accepted Phase 01 on 2026-11-22.
 - Summary (interim, 2026-11-22): Part B architecture alignment drafted on branch `phase-01/architecture`: manifest schema v1 and examples, ADR-0001/0002/0003, game-module contract v2, data model, system overview, application architecture, offline-first design, security guidelines, test strategy, `.gitignore`, and Phase 04B roadmap. SPIKE-002 (PS2 desk probe) complete. SPIKE-001 in progress on `spike/phase-01-ps1-byor`: Chrome results for A1, A2, and platform-side A4/A5/A6 recorded; emulator-core checks (A3, A7, A8) wait for owner sign-off on the test image and npm package channel; the Safari/Firefox owner session is pending.
 - Files changed: see the branch diff against `main`.
 - Open questions: test-image sign-off; EmulatorJS npm channel; D3 (Tier 2 fallback) after the owner session; PS1 core GPL-2.0 licence review; host selection in ADR-0001; optional LICENSE file (O-7).

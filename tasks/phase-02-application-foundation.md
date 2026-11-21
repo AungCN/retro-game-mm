@@ -1,6 +1,6 @@
 # Phase 02 — Application Foundation and Platform Shell
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Dependencies: Phase 01 accepted
 
 ## Objective
@@ -41,6 +41,22 @@ Create the smallest working browser application shell with navigation, catalogue
 - [ ] Automated checks pass or failures are documented.
 - [ ] No unapproved features/dependencies are added.
 - [ ] Human visual/functional review completed.
+
+## AI report (draft v0.1, DEC-003)
+- Summary:
+  - Built the React + TypeScript + Vite shell with hash routes for the library, game details, player, settings, about, and not-found.
+  - Responsive layout using safe-area insets.
+  - Loading, empty and error states.
+  - Accessibility basics: skip control, `:focus-visible`, `aria-current` navigation, status/alert roles, badges that pair text with colour, 44 px controls.
+  - Security headers via `config/security-headers.ts`.
+- Files: `index.html`, `src/app/*`, `src/pages/*`, `src/components/*`, `src/styles.css`, `vite.config.ts`, `config/*`, `package.json` (exact pins).
+- Dependencies: react, react-dom (runtime); vite, typescript, @types/*, vitest, ajv, @playwright/test (dev). All MIT/Apache-2.0, installed with `--ignore-scripts`, `npm audit` 0 vulnerabilities.
+- Evidence: e2e "library loads cross-origin isolated with the strict CSP and no violations" (Chrome 158); typecheck clean.
+- Not done:
+  - visual-direction approval;
+  - formal keyboard/zoom/screen-reader audit;
+  - narrow-viewport screenshots on real devices;
+  - ADR-0001 owner decision.
 
 ## Human evaluation — owner only
 - Reviewer:

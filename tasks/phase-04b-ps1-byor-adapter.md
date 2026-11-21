@@ -1,6 +1,6 @@
 # Phase 04B — PS1 BYOR Player (`wasm-libretro` Adapter)
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Dependencies: Phase 04 accepted; ADR-0002 and ADR-0003 accepted
 - Origin: SCR-001 (`docs/product/SCOPE_CHANGE_001_BYOR.md`), owner decision D6
 
@@ -47,11 +47,30 @@ Deliver the generic PS1 player described in `docs/product/MVP_SCOPE.md`: users p
 - [ ] Performance measured against the PS1 target or an owner-accepted revision.
 - [ ] Core rights record complete; no ROM/BIOS/commercial content in the repository or build.
 
-## AI report
+## AI report (draft v0.1, DEC-003)
 - Summary:
-- Files changed:
-- Open questions:
-- Evidence links:
+  - Generic PS1 player (`docs/games/PS1_PLAYER_SPEC.md`) through the `wasm-libretro` adapter.
+  - EmulatorJS 4.2.3 + non-threaded `pcsx_rearmed`, fetched as sha512-verified tarballs.
+  - Two-layer frame: same-origin relay plus an inner sandbox with an opaque origin.
+  - Tier 1: read-only file handles and the `NEEDS_PERMISSION` re-grant.
+  - Tier 2: upload, OPFS copy by default (provisional D3) or session-only.
+  - Optional BIOS; memory card per disc (autosave); three save-state slots tagged with the core version.
+  - Multi-disc bundling, with `.cue`/`.m3u` validated against selected files; disc swap.
+  - `.zip` save backups; mobile "not supported yet".
+- Evidence: e2e "PS1 player (BYOR)" covers:
+  - upload with OPFS copy, offline package install, boot of an MIT homebrew program;
+  - sandbox isolation (origin `null`; parent DOM, top location, IndexedDB and network all blocked);
+  - save/load state, exit with the frame removed, boot again offline;
+  - screenshot `test-results/ps1-player-running.png`.
+  - Unit tests for zip, disc sets, protocol and backups.
+- Not done:
+  - Tier 1 picker and permission flow in a real browser (pickers cannot be automated);
+  - multi-disc `.cue`/`.m3u` and disc swap with real data (no licensed test discs);
+  - memory-card persistence across sessions with a real game;
+  - Safari/Firefox;
+  - gamepad mapping review;
+  - performance on real games;
+  - GPL-2.0 core licence review.
 
 ## Human evaluation — owner only
 - Reviewer:

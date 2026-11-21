@@ -1,6 +1,6 @@
 # Phase 03 — First Game and Shared Runtime Vertical Slice
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Dependencies: Phase 02 accepted; GAME_001 specification approved
 
 ## Objective
@@ -41,6 +41,23 @@ Deliver one complete playable game through the shared game host to prove the pla
 - [ ] Game-specific tests pass.
 - [ ] Rights and asset provenance are cleared.
 - [ ] Human playtest is completed and recorded.
+
+## AI report (draft v0.1, DEC-003)
+- Summary:
+  - Comet Courier is an original Canvas 2D lane game (`docs/games/GAME_001_COMET_COURIER.md`).
+  - GameHost enforces lifecycle transitions and auto-pauses on hidden tab or blur.
+  - Input: keyboard, gamepad (standard mapping), and touch buttons.
+  - Audio is synthesized and owned by the host.
+  - The best score is saved with schema version 1 and a safe reset; destroy releases the canvas, loop, listeners and audio.
+- Evidence:
+  - Unit: game rules, including deterministic RNG, collisions, invulnerability, frame clamp and game over; lifecycle state machine.
+  - e2e: start, input, pause, resume, exit, with the canvas removed afterwards.
+  - e2e: playable offline.
+- Not done:
+  - human playtest;
+  - touch on a real device;
+  - rights decision (owner);
+  - native runtime decision (Phaser vs Canvas — drafted with Canvas 2D, no dependency).
 
 ## Human evaluation — owner only
 - Reviewer:
