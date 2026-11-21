@@ -81,7 +81,7 @@ Tiers are defined in `docs/product/MVP_SCOPE.md`: Tier 1 = desktop Chromium; Tie
 | FR-019 | Check browser capabilities and tier before launch and explain unsupported or limited cases in plain language | Must |
 | FR-020 | Persist virtual memory cards locally per disc | Must |
 | FR-021 | Create and load save states | Should |
-| FR-022 | Export and import a save backup (`.zip`) of memory cards and save states | Should; Must on Tier 2 proposed (pending owner decision D4) |
+| FR-022 | Export and import a save backup (`.zip`) of memory cards and save states | Should on Tier 1; Must on Tier 2 (owner decision D4) |
 | FR-023 | Support multi-disc `.m3u` playlists and disc swapping from the pause menu | Should |
 | FR-024 | Show `NEEDS_PERMISSION` for a linked disc whose permission must be re-granted, and re-grant it with one user action | Must on Tier 1 |
 | FR-025 | Let the user remove a linked disc, BIOS file, or save data, explaining what is deleted and whether it can be recovered | Should |
@@ -128,7 +128,8 @@ Accounts, cloud saves, multiplayer, leaderboards, payments, ads, public user con
 Status after SCR-001 (see `harness/context/OPEN_QUESTIONS.md` for the current list):
 
 - Catalogue content: resolved — original native games plus a generic BYOR PS1 player; no third-party games are distributed.
-- Desktop vs. mobile and browser support: partly resolved — the BYOR tiers are recorded in `docs/product/MVP_SCOPE.md`; minimum browser versions and native-game device priorities remain open.
+- Desktop vs. mobile: resolved — the BYOR tiers are recorded in `docs/product/MVP_SCOPE.md`; native games are desktop first, responsive mobile second (owner decision, 2026-11-21).
+- Browser support: partly resolved — tiers are recorded; minimum browser versions remain open.
 - Performance targets: partly resolved — a provisional PS1 target is recorded above; other targets remain open.
 
 ## 10. Acceptance of this PRD

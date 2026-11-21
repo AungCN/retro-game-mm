@@ -76,17 +76,17 @@ Cores are self-hosted and pinned; they are not loaded from third-party CDNs at r
 
 The owner has chosen GPL-3.0-or-later for the repository. The LICENSE file is added in its own separately approved step; until then this is a recorded direction, not an applied licence.
 
-### Trademark wording (interim rule)
+### Trademark wording
 
 - Do not use console makers' logos, fonts, or trade dress.
 - Do not imply affiliation or endorsement; include a non-affiliation notice where a console name appears.
-- Final UI wording (for example "PS1" with a notice, or neutral wording such as "PS1-format discs") is pending owner decision D2.
+- UI wording (owner decision D2): use "PS1" together with a clear non-affiliation notice wherever the console name appears.
 
 ### Test fixtures
 
 - Use only openly licensed homebrew disc images whose licence permits the intended test use; record provenance like any other asset.
-- Large binary fixtures are fetched by a script and verified by checksum, never committed.
-- The size limit for committing small fixtures is pending owner decision D5 (proposed: 1 MB).
+- Committed fixtures must be ≤ 1 MB each (owner decision D5).
+- Larger fixtures are fetched by a script and verified by checksum, never committed.
 
 ## Record keeping
 

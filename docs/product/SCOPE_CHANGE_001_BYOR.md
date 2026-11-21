@@ -92,13 +92,18 @@ Files deliberately not changed by SCR-001 (Phase 01 scope): ADR-0001, ADR-0004, 
 
 Tracked in `harness/context/OPEN_QUESTIONS.md`.
 
-- D2 — UI wording for console names (e.g. "PS1" with a non-affiliation notice, or neutral wording such as "PS1-format discs").
-- D3 — Tier 2 fallback mechanism: OPFS copy or session-only file (decided by the Phase 01 spike).
-- D4 — Whether save export (FR-022) is Must on Tier 2.
-- D5 — Size limit for committing small test fixtures (proposed 1 MB).
-- D6 — Roadmap placement of the PS1 BYOR adapter phase (proposed "Phase 04B" to avoid renumbering) vs. renumbering.
+Owner decisions given on 2026-11-21 after SCR-001 was executed:
 
-D1 (licence) is decided: GPL-3.0-or-later; LICENSE file in a separate approved step.
+| Item | Decision | Recorded in |
+|---|---|---|
+| D1 — Repository licence | GPL-3.0-or-later; LICENSE file (verbatim GNU GPL-3.0 text) as an optional Phase 01 item approved separately | `GAME_CATALOG_POLICY.md` (Repository licence direction) |
+| D2 — Console-name wording | "PS1" with a clear non-affiliation notice | `GAME_CATALOG_POLICY.md` (Trademark wording); R-015 |
+| D3 — Tier 2 fallback | **Open:** decided from SPIKE-001 evidence in Phase 01 | `harness/context/OPEN_QUESTIONS.md` item 12 |
+| D4 — Save export on Tier 2 | FR-022 is Must on Tier 2 | PRD FR-022 |
+| D5 — Committed fixture size | ≤ 1 MB per committed fixture | `GAME_CATALOG_POLICY.md` (Test fixtures); R-019 |
+| D6 — Roadmap placement | Insert Phase 04B between Phase 04 and Phase 05, no renumbering (row added in Phase 01) | This section; `PLANS.md` in Phase 01 |
+| Native device priority | Desktop first, responsive mobile second | PRD §9 |
+| GAME_001 selection method | Small original arcade vertical slice first; concept chosen in the brief | `docs/games/GAME_001_FIRST_GAME_BRIEF.md`; OPEN_QUESTIONS item 4 |
 
 ## 8. Files changed by this scope change
 
