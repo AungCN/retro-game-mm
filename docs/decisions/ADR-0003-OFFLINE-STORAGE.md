@@ -59,6 +59,14 @@ Decouple **Engine/Shell Offline Readiness** (managed by Service Worker + Cache S
 
 - Implementation notes: Prioritize `.chd` (Compressed Hunks of Data) support to reduce PS1/PS2 file sizes by 40–60%.
 
+## Consequences
+
+- Tier 1 users see a one-click re-grant after most browser restarts (`NEEDS_PERMISSION`); the UI and flows must make this quick and clear.
+- With an OPFS copy, Tier 2 users pay the disc's size in browser storage and lose the copy if site data is cleared; with a session-only file, they re-select the disc each session.
+- Saves live only in browser storage unless exported, so `.zip` export is essential on Tier 2.
+- Whole-file loading by the core would cost memory equal to the disc size; streaming through range reads is preferred.
+- `OFFLINE_READY` for BYOR depends on user-controlled files outside the app, so the state must be re-verified at launch, not trusted from a stored flag.
+
 ## Owner decision
 
 - Decision: PENDING

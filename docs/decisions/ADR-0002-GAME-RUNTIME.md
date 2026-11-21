@@ -53,6 +53,15 @@ Maintain one common platform-facing `GameModule` contract (`load`, `start`, `pau
 - Testing is harder: emulator adapters need iframe/worker teardown tests, capability-gating tests, and manual permission-prompt checks.
 - If the core needs a CSP relaxation (for example `'unsafe-eval'`), it applies only to the iframe document and needs owner approval.
 
+## Recommendation
+
+Adopt option 3 (mixed adapter model) with emulator cores in a same-origin iframe behind the typed message protocol:
+- `native-canvas` for the MVP's native games;
+- `wasm-libretro` for the PS1 player (Phase 04B), using a pinned EmulatorJS build if SPIKE-001 A3/A7/A8 confirm it boots, performs, and tears down cleanly;
+- `wasm-ps2` reserved for a post-MVP experiment.
+
+The final recommendation depends on the remaining SPIKE-001 results.
+
 ## Spike plan and evidence
 
 | Spike | Covers | Status |
