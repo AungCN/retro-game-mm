@@ -47,6 +47,7 @@ What is in the draft:
 
 - **Library, game details, player, settings, about.** React shell with hash routes; works offline after the first visit.
 - **Comet Courier.** An original Canvas 2D game with keyboard, touch, and gamepad input, pause on focus loss, and a saved best score.
+- **Chess, Checkers, Reversi.** Traditional board games with original rule implementations, a computer opponent at three levels (in a Web Worker), two-player mode, undo, autosave/resume, and accessible keyboard/touch boards. The library has search and genre filters.
 - **PS1 Player (bring your own disc).**
   - Link discs (desktop Chromium) or upload them (Safari/Firefox; copied into browser storage by default).
   - Optional BIOS, or the built-in replacement.

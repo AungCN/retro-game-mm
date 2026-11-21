@@ -9,6 +9,7 @@ All notable project changes should be recorded here. This file tracks the projec
 - Added human approval gates and phase-based AI workflow.
 - Added proposed architecture, task briefs, review templates, and governance logs.
 - No application source code or production dependency has been added.
+- Board games: Chess, Checkers, Reversi (computer opponent in a worker, two-player mode, undo, autosave); library search/filter; keyboard fix for toolbar buttons; 101 unit and 9 e2e tests.
 - Draft v0.1 (DEC-003 draft-first mode, branch `draft/v0.1-first-build`):
   - app shell, Comet Courier, the PS1 BYOR player in a two-layer sandbox;
   - offline service worker and emulator package; save backups;

@@ -61,6 +61,8 @@ flowchart LR
 | T18 | Data loss: eviction, quota, browser data clearing (D) | B5 | `persist()` requested after meaningful actions; quota check before OPFS copy with session fallback; save export (Must on Tier 2); clear warnings | Partly verified (OPFS copy survives restart in Chrome — SPIKE-001) |
 | T19 | Denial of service from huge discs (D) | B1 | EmulatorJS loads whole files (memory ≈ disc size); single PS1 discs fit on desktop; mobile is excluded | Measured (SPIKE-001 A4) |
 | T20 | Privacy leaks: telemetry, referrers, disc names in logs (I) | B5 | No analytics; `Referrer-Policy: no-referrer`; diagnostics never include file names, labels, or fingerprints; disc fingerprint is local-only | Design |
+| T21 | Tampered or corrupted board-game saves (e.g. edited IndexedDB, or an imported backup) crash the game or inject markup (T/D) | B1 | Saves are validated structurally per game (`validate*State`) and discarded on failure (new game); board text is set with `textContent`, never HTML; imported backups pass the T8 checks first | **Verified** (unit: tampered states rejected) |
+| T22 | AI worker returns a malformed or illegal move, or a stale one after undo/new game (T) | B2 | Worker validates request shape; every reply carries a request id and stale replies are dropped; the game accepts a reply only if it matches one of its own legal moves | Design + e2e (computer replies) |
 
 ## 4. Residual risks (accepted for the draft, owner to confirm)
 
