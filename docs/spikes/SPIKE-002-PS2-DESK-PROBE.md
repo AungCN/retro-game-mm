@@ -55,4 +55,4 @@
 - https://raw.githubusercontent.com/snuri00/ps2-web-recomp/HEAD/README.md
 - News coverage (context only): https://www.digitaltrends.com/gaming/claude-ps2-emulator-browser-tabstationtoo/
 
-Not read: TabStationToo `docs/web-port/PERFORMANCE.md`, the Play! compatibility tracker, and ps2-web-recomp `docs/gt3.md`. Per-game performance numbers were not reviewed.
+Not read: TabStationToo's performance notes (`PERFORMANCE.md` in that project's repository), the Play! compatibility tracker, and ps2-web-recomp's GT3 notes. Per-game performance numbers were not reviewed.
