@@ -15,6 +15,14 @@ export const baseHeaders: Record<string, string> = {
     'camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), hid=(), bluetooth=(), midi=(), display-capture=(), gamepad=(self), fullscreen=(self)',
 };
 
+/**
+ * The emulator frame embeds an opaque-origin sandbox, which is never "self"; EmulatorJS calls getGamepads() and
+ * fails without it; it also requests a screen wake lock during play. Only the emulator frame document delegates
+ * gamepad, fullscreen and screen-wake-lock onward (to its own srcdoc child); every other feature stays off.
+ */
+const EMULATOR_PERMISSIONS =
+  'camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), hid=(), bluetooth=(), midi=(), display-capture=(), gamepad=*, fullscreen=*, screen-wake-lock=*';
+
 function csp(directives: Record<string, string[]>): string {
   return Object.entries(directives)
     .map(([k, v]) => `${k} ${v.join(' ')}`)
@@ -69,7 +77,7 @@ export function emulatorCsp(innerScriptHash: string): string {
 
 export function headersFor(pathname: string, dev: boolean, innerScriptHash: string): Record<string, string> {
   if (pathname.startsWith(EMULATOR_PATH_PREFIX) && (pathname.endsWith('.html') || pathname.endsWith('/'))) {
-    return { ...baseHeaders, 'Content-Security-Policy': emulatorCsp(innerScriptHash) };
+    return { ...baseHeaders, 'Permissions-Policy': EMULATOR_PERMISSIONS, 'Content-Security-Policy': emulatorCsp(innerScriptHash) };
   }
   return { ...baseHeaders, 'Content-Security-Policy': shellCsp(dev) };
 }
@@ -88,7 +96,8 @@ export function staticHostHeadersFile(innerScriptHash: string): string {
     '',
     `${EMULATOR_PATH_PREFIX}frame.html`,
     '  ! Content-Security-Policy',
-    ...lines({ 'Content-Security-Policy': emulatorCsp(innerScriptHash) }),
+    '  ! Permissions-Policy',
+    ...lines({ 'Permissions-Policy': EMULATOR_PERMISSIONS, 'Content-Security-Policy': emulatorCsp(innerScriptHash) }),
     '',
   ].join('\n');
 }

@@ -13,7 +13,13 @@ import { writeZip } from '../platform/zip/zip';
 async function discGameFile(files: File[]): Promise<File> {
   if (files.length === 1) return files[0]!;
   // Multi-file disc (.cue + .bin, or .m3u set): bundle as one stored zip; EmulatorJS extracts it and prefers the .m3u/.cue.
-  const zip = await writeZip(files.map((f) => ({ name: f.name.replace(/[^A-Za-z0-9 ._-]/g, '_'), data: f })));
+  // Names are kept as-is because .cue/.m3u sheets reference them; writeZip rejects anything unsafe.
+  let zip: Blob;
+  try {
+    zip = await writeZip(files.map((f) => ({ name: f.name, data: f })));
+  } catch {
+    throw new Error('Some disc file names contain unusual characters. Rename them using letters, numbers, spaces, and ( ) [ ] - _ . and link the disc again.');
+  }
   return new File([zip], 'disc.zip', { type: 'application/zip' });
 }
 

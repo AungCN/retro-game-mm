@@ -24,7 +24,8 @@ export interface ZipEntryInput {
 }
 
 const enc = new TextEncoder();
-const NAME_RE = /^[A-Za-z0-9][A-Za-z0-9 ._\-/]{0,199}$/;
+// Letters/digits in any script plus common disc-name punctuation; no backslashes, colons or control characters.
+const NAME_RE = /^[\p{L}\p{N}][\p{L}\p{N} ._\-/()[\],'&+!#~]{0,199}$/u;
 export const isSafeEntryName = (n: string) => NAME_RE.test(n) && !n.split('/').some((p) => p === '' || p === '.' || p === '..');
 
 /**

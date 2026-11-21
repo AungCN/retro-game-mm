@@ -66,7 +66,7 @@
       if (bootstrap.indexOf('</script') !== -1) throw new Error('invalid bootstrap');
       inner = document.createElement('iframe');
       inner.setAttribute('sandbox', 'allow-scripts');
-      inner.setAttribute('allow', 'gamepad; fullscreen');
+      inner.setAttribute('allow', 'gamepad *; fullscreen *; screen-wake-lock *');
       inner.setAttribute('title', 'PS1 emulator');
       inner.className = 'inner';
       var ready = new Promise(function (resolve) { innerReady = resolve; });

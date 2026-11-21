@@ -7,6 +7,23 @@
   var notice = document.getElementById('notice');
   var booted = false;
 
+  // EmulatorJS reads localStorage even when told not to. In this opaque-origin sandbox the real Storage throws,
+  // so provide in-memory replacements: settings last for this session only and nothing is shared with the app.
+  function memoryStorage() {
+    var data = new Map();
+    return {
+      getItem: function (k) { return data.has(String(k)) ? data.get(String(k)) : null; },
+      setItem: function (k, v) { data.set(String(k), String(v)); },
+      removeItem: function (k) { data.delete(String(k)); },
+      clear: function () { data.clear(); },
+      key: function (i) { return Array.from(data.keys())[i] || null; },
+      get length() { return data.size; }
+    };
+  }
+  ['localStorage', 'sessionStorage'].forEach(function (name) {
+    try { Object.defineProperty(window, name, { value: memoryStorage(), configurable: true }); } catch (e) { /* keep native */ }
+  });
+
   function send(msg) { parentWin.postMessage(msg, '*'); }
   function gm() { return window.EJS_emulator && window.EJS_emulator.gameManager; }
   function fail(message) { send({ t: 'error', message: String(message).slice(0, 300) }); }
@@ -38,7 +55,7 @@
       playPause: false, restart: false, mute: false, settings: false, fullscreen: false, saveState: false, loadState: false,
       screenRecord: false, gamepad: false, cheat: false, volume: false, saveSavFiles: false, loadSavFiles: false,
       quickSave: false, quickLoad: false, screenshot: false, cacheManager: false, exitEmulation: false, netplay: false,
-      diskButton: false, contextMenu: false, rightClick: false
+      diskButton: false, contextMenu: false
     };
     window.EJS_onGameStart = function () {
       notice.textContent = '';
