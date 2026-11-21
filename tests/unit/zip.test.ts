@@ -28,13 +28,18 @@ describe('zip safety', () => {
     expect(isSafeEntryName(n)).toBe(false);
   });
 
+  it.each(['Game (USA) (Track 1).bin', 'Disc [1] & more.cue', "Ninja's Run, Disc 1.m3u", 'ゲーム.chd', 'blobs/ps1-player/disc/x/state/1'])('accepts disc-style name %j', (n) => {
+    expect(isSafeEntryName(n)).toBe(true);
+  });
+
   it('refuses to write unsafe names', async () => {
     await expect(writeZip([{ name: '../x', data: new Uint8Array(1) }])).rejects.toThrow(/unsafe/);
   });
 
   it('detects a tampered entry (CRC mismatch)', async () => {
     const z = await bytes(await writeZip([{ name: 'a.txt', data: enc.encode('hello') }]));
-    z[30 + 'a.txt'.length] ^= 0xff; // flip a data byte
+    const at = 30 + 'a.txt'.length;
+    z[at] = z[at]! ^ 0xff; // flip a data byte
     expect(() => readZip(z)).toThrow(/CRC/);
   });
 

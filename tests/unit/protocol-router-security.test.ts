@@ -83,8 +83,16 @@ describe('security headers', () => {
       expect(h['X-Content-Type-Options']).toBe('nosniff');
     }
   });
-  it('detaches the shell CSP before setting the emulator CSP in _headers', () => {
-    const f = staticHostHeadersFile(hash);
-    expect(f).toMatch(/\/emulator\/frame\.html\n {2}! Content-Security-Policy\n {2}Content-Security-Policy:/);
+  it('detaches the shell CSP and Permissions-Policy before setting the emulator ones in _headers', () => {
+    const block = staticHostHeadersFile(hash).split('/emulator/frame.html\n')[1]!;
+    const lines = block.split('\n').map((l) => l.trim());
+    expect(lines.indexOf('! Content-Security-Policy')).toBeGreaterThanOrEqual(0);
+    expect(lines.indexOf('! Permissions-Policy')).toBeGreaterThanOrEqual(0);
+    const csp = lines.findIndex((l) => l.startsWith('Content-Security-Policy:'));
+    const pp = lines.findIndex((l) => l.startsWith('Permissions-Policy:'));
+    expect(csp).toBeGreaterThan(lines.indexOf('! Content-Security-Policy'));
+    expect(pp).toBeGreaterThan(lines.indexOf('! Permissions-Policy'));
+    expect(lines[csp]).toContain(`'sha256-${hash}'`);
+    expect(lines[pp]).toContain('camera=()');
   });
 });
