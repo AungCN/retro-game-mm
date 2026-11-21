@@ -44,3 +44,16 @@ artifacts/local/
 *.pbp
 *.mcr
 *.ps2
+*.img
+*.ccd
+*.sub
+*.ecm
+*.srm
+*.state
+*.mcd
+
+# Fetched or generated binaries (never committed; see TEST_STRATEGY.md and APPLICATION_ARCHITECTURE.md)
+test-fixtures/local/
+public/cores/
+spike/vendor/
+spike/fixtures/
