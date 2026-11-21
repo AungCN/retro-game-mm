@@ -1,0 +1,164 @@
+{
+  "spike": "SPIKE-001",
+  "environment": {
+    "machine": "Apple M4, 16 GB, macOS 26.6",
+    "browser": "Google Chrome 158.0.8127.37 (headless=new, fresh throwaway profiles)",
+    "server": "Vite 8.3.8 dev (5173) / preview (4173), headers per vite.config.js",
+    "date": "2026-11-22"
+  },
+  "A1": {
+    "dev_and_preview": "crossOriginIsolated=true, SharedArrayBuffer=true, shared WebAssembly.Memory=true, headers coop=same-origin coep=require-corp corp=same-origin (both servers)",
+    "webgpu_adapter": true,
+    "measureUserAgentSpecificMemory": true,
+    "showOpenFilePicker": true,
+    "opfs": true
+  },
+  "A2_step1_online": {
+    "crossOriginIsolated": true,
+    "sharedArrayBuffer": true,
+    "swControlled": true,
+    "cacheNames": [
+      "spike001-v1"
+    ],
+    "cachedRequests": 2,
+    "probeDone": true,
+    "title": "SPIKE-001 diagnostics (throwaway)"
+  },
+  "A2_step2_server_stopped_browser_restarted": {
+    "crossOriginIsolated": true,
+    "sharedArrayBuffer": true,
+    "swControlled": true,
+    "cacheNames": [
+      "spike001-v1"
+    ],
+    "cachedRequests": 2,
+    "probeDone": true,
+    "title": "SPIKE-001 diagnostics (throwaway)"
+  },
+  "negative_control_no_headers": {
+    "crossOriginIsolated": false,
+    "sharedArrayBuffer": false,
+    "swControlled": false,
+    "cacheNames": [],
+    "cachedRequests": 0,
+    "probeDone": true,
+    "title": "SPIKE-001 diagnostics (throwaway)"
+  },
+  "A4_A5_A6_run1": [
+    {
+      "button": "btn-session-read",
+      "id": "A5-session-read",
+      "data": {
+        "name": "synthetic-650m.bin",
+        "sizeBytes": 679477248,
+        "sizeMB": 648,
+        "bytes": 679477248,
+        "ms": 352,
+        "mbPerSec": 1843
+      }
+    },
+    {
+      "button": "btn-session-whole",
+      "id": "A4-whole-file",
+      "data": {
+        "name": "synthetic-650m.bin",
+        "sizeBytes": 679477248,
+        "sizeMB": 648,
+        "memoryBeforeMB": 1,
+        "loadMs": 258,
+        "loadedBytes": 679477248,
+        "memoryWhileHeldMB": 649
+      }
+    },
+    {
+      "button": "btn-opfs-copy",
+      "id": "A5-opfs-copy",
+      "data": {
+        "name": "synthetic-650m.bin",
+        "sizeBytes": 679477248,
+        "sizeMB": 648,
+        "bytesWritten": 679477248,
+        "ms": 900,
+        "mbPerSec": 720
+      }
+    },
+    {
+      "button": "btn-opfs-check",
+      "id": "A5-opfs-check",
+      "data": {
+        "exists": true,
+        "sizeBytes": 679477248,
+        "sizeMB": 648
+      }
+    },
+    {
+      "button": "btn-opfs-read",
+      "id": "A5-opfs-read",
+      "data": {
+        "bytes": 679477248,
+        "ms": 168,
+        "mbPerSec": 3857,
+        "method": "syncAccessHandle"
+      }
+    },
+    {
+      "button": "btn-storage",
+      "id": "A6-storage",
+      "data": {
+        "persisted": false,
+        "usageMB": 648,
+        "quotaMB": 10888
+      }
+    }
+  ],
+  "A5_A6_run2_after_restart": [
+    {
+      "button": "btn-opfs-check",
+      "id": "A5-opfs-check",
+      "data": {
+        "exists": true,
+        "sizeBytes": 679477248,
+        "sizeMB": 648
+      }
+    },
+    {
+      "button": "btn-opfs-read",
+      "id": "A5-opfs-read",
+      "data": {
+        "bytes": 679477248,
+        "ms": 64,
+        "mbPerSec": 10121,
+        "method": "syncAccessHandle"
+      }
+    },
+    {
+      "button": "btn-storage",
+      "id": "A6-storage",
+      "data": {
+        "persisted": false,
+        "usageMB": 0,
+        "quotaMB": 10240
+      }
+    },
+    {
+      "button": "btn-opfs-delete",
+      "id": "A5-opfs-delete",
+      "data": {
+        "deleted": true
+      }
+    },
+    {
+      "button": "btn-storage",
+      "id": "A6-storage",
+      "data": {
+        "persisted": false,
+        "usageMB": 0,
+        "quotaMB": 10240
+      }
+    }
+  ],
+  "fixture": {
+    "file": "spike/fixtures/synthetic-650m.bin (gitignored, generated locally from /dev/urandom)",
+    "bytes": 679477248
+  }
+}

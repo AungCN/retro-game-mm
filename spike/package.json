@@ -1,0 +1,15 @@
+{
+  "name": "spike-001-ps1-byor",
+  "private": true,
+  "version": "0.0.0",
+  "description": "THROWAWAY SPIKE — never merged. Diagnostics for SPIKE-001 (docs/spikes/SPIKE-001-PS1-BYOR.md on the Phase 01 branch).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort"
+  },
+  "devDependencies": {
+    "vite": "8.3.8"
+  }
+}

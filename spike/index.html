@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPIKE-001 diagnostics (throwaway)</title>
+  <style>
+    body { font: 14px/1.45 system-ui, sans-serif; margin: 1.5rem; max-width: 60rem; }
+    h1 { font-size: 1.3rem; } h2 { font-size: 1.05rem; margin-top: 1.6rem; }
+    button, input { font: inherit; margin: .2rem .4rem .2rem 0; }
+    pre { background: #f4f4f4; padding: .6rem; overflow: auto; max-height: 22rem; }
+    .note { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>SPIKE-001 diagnostics — throwaway, never merged</h1>
+  <p class="note">Results are kept in this browser's localStorage so they survive restarts. Use <strong>Export results</strong> at the end. No data leaves this page.</p>
+
+  <h2>A1 / A2 — Isolation and service worker</h2>
+  <button id="btn-isolation">Re-run isolation check</button>
+  <button id="btn-sw-register">Register service worker</button>
+  <button id="btn-sw-status">Service worker status</button>
+  <button id="btn-sw-unregister">Unregister + clear cache</button>
+
+  <h2>A5 — Linked file (File System Access, Tier 1)</h2>
+  <button id="btn-link">Link file…</button>
+  <button id="btn-check-handle">Check stored handle</button>
+  <button id="btn-regrant">Re-grant access</button>
+  <button id="btn-handle-read">Chunked read (linked file)</button>
+
+  <h2>A4 / A5 — Session file and OPFS copy (Tier 2)</h2>
+  <label>Session file: <input type="file" id="input-session"></label><br>
+  <button id="btn-session-read">Chunked read (session file)</button>
+  <button id="btn-session-whole">Load whole file into memory</button>
+  <button id="btn-opfs-copy">Copy session file to OPFS</button>
+  <button id="btn-opfs-check">Check OPFS copy</button>
+  <button id="btn-opfs-read">Chunked read (OPFS copy)</button>
+  <button id="btn-opfs-delete">Delete OPFS copy</button>
+
+  <h2>A6 — Storage durability</h2>
+  <button id="btn-storage">persisted() + estimate()</button>
+  <button id="btn-persist">Request persist()</button>
+
+  <h2>Results</h2>
+  <button id="btn-export">Export results</button>
+  <button id="btn-clear">Clear stored results</button>
+  <pre id="log" aria-live="polite"></pre>
+  <pre id="auto" hidden></pre>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
