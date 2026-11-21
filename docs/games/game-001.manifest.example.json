@@ -1,7 +1,10 @@
 {
+  "manifestVersion": 1,
   "id": "game-001-example",
   "title": "Example Original Arcade Game",
   "version": "0.1.0",
+  "platform": "web-native",
+  "runtimeAdapter": "native-canvas",
   "description": "Replace this placeholder with the approved description for the first original or rights-cleared game.",
   "genre": "arcade",
   "orientation": "any",
@@ -12,6 +15,7 @@
   },
   "offline": {
     "supported": true,
+    "contentSource": "bundled",
     "requiredAssets": ["games/game-001-example/game.js", "games/game-001-example/assets/sprites.png"]
   },
   "save": {
@@ -32,5 +36,5 @@
     }
   ],
   "thumbnail": "games/game-001-example/thumbnail.png",
-  "releaseStatus": "draft"
+  "releaseStatus": "idea"
 }

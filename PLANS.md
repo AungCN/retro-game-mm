@@ -25,8 +25,9 @@ This roadmap is the single index for phase status. Phase files contain the detai
 | 02 | `tasks/phase-02-application-foundation.md` | Browser app shell, navigation, responsive catalogue shell | PROPOSED | Phase 01 accepted |
 | 03 | `tasks/phase-03-first-game.md` | First playable game integrated through shared runtime | PROPOSED | Phase 02 accepted |
 | 04 | `tasks/phase-04-game-library.md` | Extensible catalogue and additional game modules | PROPOSED | Phase 03 accepted |
-| 05 | `tasks/phase-05-offline-support.md` | Installable PWA and tested offline game delivery | PROPOSED | Phases 01–04 accepted |
-| 06 | `tasks/phase-06-browser-qa.md` | Quality, accessibility, compatibility, and release readiness | PROPOSED | Phases 02–05 accepted |
+| 04B | `tasks/phase-04b-ps1-byor-adapter.md` | Generic PS1 BYOR player through the `wasm-libretro` adapter (added by SCR-001, owner decision D6) | PROPOSED | Phase 04 accepted |
+| 05 | `tasks/phase-05-offline-support.md` | Installable PWA and tested offline game delivery, including BYOR offline readiness | PROPOSED | Phases 01–04B accepted |
+| 06 | `tasks/phase-06-browser-qa.md` | Quality, accessibility, compatibility, and release readiness | PROPOSED | Phases 02–05 (including 04B) accepted |
 | 07 | `tasks/phase-07-mobile-expansion.md` | Android/iOS packaging and device validation | DEFERRED | Phase 06 accepted |
 
 ## Current project checkpoint

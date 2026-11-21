@@ -1,7 +1,7 @@
 # Phase 05 — PWA and Offline Game Support
 
 - Status: PROPOSED
-- Dependencies: Phase 01 architecture accepted; Phases 02–04 accepted
+- Dependencies: Phase 01 architecture accepted; Phases 02–04B accepted
 
 ## Objective
 
@@ -15,6 +15,7 @@ Make the application shell and selected game packages reliably usable offline, w
 - Store package metadata and saves in approved storage layers.
 - Implement cache versioning and cleanup.
 - Test offline launch after closing/reopening browser.
+- BYOR (added by SCR-001): cache the pinned emulator core as an offline package; verify a linked disc is offline-ready only when core, BIOS (if required) and disc are all locally available; implement and test the `NEEDS_PERMISSION` re-grant offline; confirm `crossOriginIsolated` is still true when the app is served by the service worker without network.
 
 ## Excluded
 - Cloud synchronization
@@ -38,6 +39,7 @@ Make the application shell and selected game packages reliably usable offline, w
 - [ ] Storage/quota errors are understandable and do not silently corrupt saves.
 - [ ] User can see/manage offline game availability.
 - [ ] No-network tests pass on agreed browsers/devices.
+- [ ] A linked PS1 disc relaunches offline after browser restart on Tier 1 (with `NEEDS_PERMISSION` re-grant) and on Tier 2 (with the approved fallback).
 
 ## Human evaluation — owner only
 - Reviewer:
