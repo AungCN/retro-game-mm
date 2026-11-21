@@ -1,0 +1,47 @@
+{
+  "manifestVersion": 1,
+  "id": "ps1-player",
+  "title": "PS1 Player",
+  "version": "0.1.0",
+  "platform": "ps1",
+  "runtimeAdapter": "wasm-libretro",
+  "description": "Play your own PS1 disc images. Ships no game content; your discs, BIOS file and saves stay on this device. Not affiliated with or endorsed by the console's maker.",
+  "genre": "player",
+  "orientation": "landscape",
+  "hardwareRequirements": {
+    "requiresSharedArrayBuffer": false,
+    "requiresWebGPU": false,
+    "recommendedRamMB": 2048,
+    "browserTiers": ["tier-1", "tier-2"]
+  },
+  "romConfig": {
+    "coreId": "pcsx_rearmed",
+    "acceptedExtensions": [".chd", ".cue", ".bin", ".m3u", ".pbp", ".iso", ".exe"],
+    "biosMode": "optional",
+    "maxDiscs": 8,
+    "supportsM3uPlaylist": true
+  },
+  "input": {
+    "keyboard": true,
+    "touch": false,
+    "gamepad": true,
+    "controllerProfile": "ps1-digital-pad"
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "user-supplied",
+    "requiredAssets": ["/emulator/frame.html", "/emulator/frame.js", "/emulator/ejs/loader.js", "/emulator/ejs/cores/pcsx_rearmed-wasm.data"]
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1,
+    "supportsSaveStates": true,
+    "supportsVirtualMemoryCard": true
+  },
+  "rightsRecord": "docs/games/PS1_PLAYER_SPEC.md",
+  "assets": [
+    { "path": "/emulator/ejs/cores/pcsx_rearmed-wasm.data", "required": true, "mediaType": "application/octet-stream" },
+    { "path": "/emulator/ejs/loader.js", "required": true, "mediaType": "text/javascript" }
+  ],
+  "releaseStatus": "in-development"
+}

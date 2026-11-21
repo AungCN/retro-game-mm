@@ -1,0 +1,29 @@
+{
+  "manifestVersion": 1,
+  "id": "comet-courier",
+  "title": "Comet Courier",
+  "version": "0.1.0",
+  "platform": "web-native",
+  "runtimeAdapter": "native-canvas",
+  "description": "Steer a courier ship across five lanes: catch stars, dodge comets, and survive as the delivery run speeds up.",
+  "genre": "arcade",
+  "orientation": "any",
+  "input": {
+    "keyboard": true,
+    "touch": true,
+    "gamepad": true,
+    "controllerProfile": "dpad-standard"
+  },
+  "offline": {
+    "supported": true,
+    "contentSource": "bundled",
+    "requiredAssets": []
+  },
+  "save": {
+    "supported": true,
+    "schemaVersion": 1
+  },
+  "rightsRecord": "docs/games/GAME_001_COMET_COURIER.md",
+  "assets": [],
+  "releaseStatus": "in-development"
+}
