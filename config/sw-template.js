@@ -2,6 +2,8 @@
 // so every build produces a byte-different worker and browsers detect updates.
 // Rules: same-origin GET only; never Range requests; cached responses are returned unchanged so their
 // COOP/COEP/CSP headers survive offline (SPIKE-001 A2); user files are never fetched or cached here.
+// ignoreVary: static assets do not vary by request headers, but hosts may send `Vary: Origin`, and module-script
+// requests carry an Origin header that the precache requests did not, which would otherwise miss the cache.
 /* eslint-disable no-restricted-globals */
 const VERSION = '__VERSION__';
 const SHELL = __SHELL__;
@@ -37,7 +39,7 @@ self.addEventListener('message', (event) => {
 async function fromEmulatorCache(request) {
   for (const key of await caches.keys()) {
     if (!key.startsWith(EMULATOR_PREFIX)) continue;
-    const hit = await (await caches.open(key)).match(request, { ignoreSearch: true });
+    const hit = await (await caches.open(key)).match(request, { ignoreSearch: true, ignoreVary: true });
     if (hit) return hit;
   }
   return null;
@@ -61,7 +63,7 @@ self.addEventListener('fetch', (event) => {
           return await fetch(req);
         } catch {
           const cache = await caches.open(SHELL_CACHE);
-          return (await cache.match('/')) ?? Response.error();
+          return (await cache.match('/', { ignoreVary: true })) ?? Response.error();
         }
       })(),
     );
@@ -71,7 +73,7 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(SHELL_CACHE);
-      return (await cache.match(req, { ignoreSearch: true })) ?? fetch(req);
+      return (await cache.match(req, { ignoreSearch: true, ignoreVary: true })) ?? fetch(req);
     })(),
   );
 });
