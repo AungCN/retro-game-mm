@@ -1,6 +1,6 @@
 # Phase 00 — Project Discovery and Product Validation
 
-- Status: PROPOSED
+- Status: AWAITING_EVALUATION
 - Type: Documentation and decision work; no application implementation
 - Dependencies: None
 
@@ -50,10 +50,11 @@ Turn the starter concept into a validated product brief and define an achievable
 - Phase evaluation record
 
 ## AI report
-- Summary:
-- Files changed:
-- Open questions:
-- Evidence links:
+- Summary: Executed owner-approved scope change SCR-001 (BYOR PS1 in MVP; PS2 experimental post-MVP; no distributed ROMs/BIOS/commercial titles; browser tiers; `NEEDS_PERMISSION`; licence direction GPL-3.0-or-later). Aligned MVP scope, goals, PRD, user flows, risk register, and catalogue policy; reset pre-filled owner fields in ADR-0002/ADR-0003 (G-1) and reworded ADR-0002 option 3 (G-3). Phase 01 architecture files were deliberately left unchanged. This report does not accept Phase 00.
+- Files changed: `GOALS.md`, `PLANS.md` (checkpoint only), `CHANGELOG.md`, `docs/product/MVP_SCOPE.md`, `docs/product/PRODUCT_REQUIREMENTS.md`, `docs/product/USER_FLOWS.md`, `docs/product/RISK_REGISTER.md`, `docs/product/GAME_CATALOG_POLICY.md`, `docs/product/SCOPE_CHANGE_001_BYOR.md` (new), `docs/decisions/ADR-0002-GAME-RUNTIME.md`, `docs/decisions/ADR-0003-OFFLINE-STORAGE.md`, `harness/decision-log.md`, `harness/context/OPEN_QUESTIONS.md`, `tasks/phase-00-project-discovery.md` (this status and report).
+- Open questions: D2–D6 and the LICENSE-file step (`harness/context/OPEN_QUESTIONS.md` items 11–16); earlier questions 1, 3, 4, 7, 10 and the open parts of 2, 5, 6, 9.
+- Evidence links: `docs/product/SCOPE_CHANGE_001_BYOR.md`; Git baseline on `main` and commits on branch `phase-00/scope-change-byor` (not pushed or merged).
+- Acceptance checks (SCR-001 AC-1–AC-13): PENDING_RUN
 
 ## Human evaluation — owner only
 - Reviewer:

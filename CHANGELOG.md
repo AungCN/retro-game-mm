@@ -9,3 +9,4 @@ All notable project changes should be recorded here. This file tracks the projec
 - Added human approval gates and phase-based AI workflow.
 - Added proposed architecture, task briefs, review templates, and governance logs.
 - No application source code or production dependency has been added.
+- SCR-001: aligned product docs with BYOR PS1 in MVP and experimental post-MVP PS2; reset pre-filled ADR-0002/0003 owner fields; added `docs/product/SCOPE_CHANGE_001_BYOR.md` and DEC-002.
